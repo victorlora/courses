@@ -1,0 +1,3 @@
+NN_reg_count: 273124
+NN_re_count: 228418
+Unigram NN count 152470

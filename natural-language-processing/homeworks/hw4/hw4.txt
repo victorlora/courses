@@ -1,0 +1,10 @@
+1.Propose a grammar that would accept any word (English word). Use Greek letters to represent groups of characters making sure that you have a table that describes their meaning. 
+OR
+Strings over {a, b, c, d}whose language is {anb2ncmd2m | n,m >= 0}
+
+S -> A
+A -> a | A B | (empty)
+B -> bb | B C | (empty)
+C -> c | C D | (empty)
+D -> dd | (empty)
+
