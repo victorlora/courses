@@ -1,0 +1,228 @@
+//==============================================================================
+//=  Author: Victor Lora                                                       =
+//=  File: chatClient.c                                                        =
+//=  A chat client                                                             =
+//==============================================================================
+//=  Compile:                                                                  =
+//=    - UNIX: gcc -o chatClient chatClient.c                                  =
+//=----------------------------------------------------------------------------=
+//=  Execute: chatClient                                                       =
+//==============================================================================
+
+#include <stdio.h>      // Needed for printf()
+#include <stdlib.h>     // Needed for exit()
+#include <string.h>     // Needed memcpy() and strcpy()
+#include <sys/types.h>  // Needed for sockets stuff
+#include <netinet/in.h> // Needed for sockets stuff
+#include <sys/socket.h> // Needed for sockets stuff
+#include <arpa/inet.h>  // Needed for sockets stuff
+#include <fcntl.h>      // Needed for sockets stuff
+#include <netdb.h>      // Needed for sockets stuff
+#include <pthread.h>    // Needed for multicast thread
+
+//------ Defines ------
+#define PORT_NUM              6060          // Port number used at the server
+#define IP_ADDR         "192.168.130.10"    // IP address of server (* HARDWIREDD *)
+#define MULTICAST_GROUP   "224.0.0.7"       // Multicast IP
+#define MULTICAST_PORT        6061
+#define MSGBUFSIZE 256
+#define BYE_BYE         "You've been disconnected"
+#define CMD_ERROR       "Error: Invalid command"
+#define FULL_CHAT_ERROR "Error: Chat room is full. Try again later"
+#define DUP_USR_ERROR   "Error: Duplicate username"
+
+// ----- Function Prototypes -----
+void *multicast_receiver(void *in_arg); // POSIX thread function to handle service
+
+//====== Main ======
+void terminate(int socket, char *message) {
+    printf("%s\n", message);
+    close(socket);
+    exit(-1);
+}
+
+int thread_count = 0;
+
+int main(int argc, char *argv[])
+{
+    int                 client_s;       // Client socket descriptor
+    struct sockaddr_in  server_addr;    // Server Internet address
+    char                out_buf[4096];  // Output buffer for data
+    char                in_buf[4096];   // Input buffer for data
+    int                 retcode;        // Return code
+    int                 finished = 0;
+    pthread_t           thread_id;      // Thread ID
+
+    // Create client socket
+    client_s = socket(AF_INET, SOCK_STREAM, 0);
+
+    if (client_s < 0) {
+        printf("*** ERROR - socket() failed \n");
+        exit(-1);
+    }
+
+    // Fill-in server address info & connect
+    server_addr.sin_family      = AF_INET;              // Address family to use
+    server_addr.sin_port        = htons(PORT_NUM);      // Port num to use
+    server_addr.sin_addr.s_addr = inet_addr(IP_ADDR);   // IP address to use
+
+    retcode = connect(client_s, (struct sockaddr *)&server_addr, sizeof(server_addr));
+
+    if (retcode < 0) {
+        printf("*** ERROR - connect() failed \n");
+        exit(-1);
+    }
+
+    // Receive from the server using the client socket
+    retcode = recv(client_s, in_buf, sizeof(in_buf), 0);
+
+    if (retcode < 0) {
+        printf("*** ERROR - recv() failed \n");
+        exit(-1);
+    }
+
+    // Output the received message
+    // printf("Received from server: %s \n", in_buf);
+    char temp_out_buf[1024];
+    strcpy(temp_out_buf, "JOIN ");
+
+    if (argc > 1) {
+        if (argv[1] != NULL) {
+            char user_name[20];
+            strcpy(user_name, argv[1]);
+            strcat(temp_out_buf, user_name);
+        } else {
+            printf("*** ERROR - username must be provided as an argument\n");
+            exit(-1);
+        }
+    } else {
+        printf("*** ERROR - username must be provided as an argument\n");
+        exit(-1);
+    }
+
+    strcpy(out_buf, temp_out_buf);
+    retcode = send(client_s, out_buf, strlen(out_buf), 0);
+    
+    if (retcode < 0) {
+        printf("*** ERROR - send() failed");
+        exit(-1);
+    }
+
+    retcode = recv(client_s, in_buf, sizeof(in_buf), 0);
+
+    if (retcode < 0) {
+        printf("*** ERROR - recv() failed");
+        close(client_s);
+        exit(-1);
+    }
+
+    if (strcmp(DUP_USR_ERROR, in_buf) == 0) {
+        terminate(client_s, DUP_USR_ERROR);        
+    } else if (strcmp(FULL_CHAT_ERROR, in_buf) == 0) {
+        terminate(client_s, FULL_CHAT_ERROR);
+    }
+
+    if (pthread_create(&thread_id, NULL, multicast_receiver, (void *)(intptr_t)client_s) != 0) {
+        printf("ERROR - Unable to create a thread to handle the GET \n");
+        exit(1);
+    }
+
+    
+    printf("Received from the server: %s\n", in_buf);
+    printf("Available commands: WHO, SEND, BYE\n");
+
+    while (!finished) {
+        
+        fgets(out_buf, 1024, stdin);
+        
+        out_buf[strlen(out_buf)-1] = '\0';
+
+        if (strcmp(out_buf, "BYE") == 0) {
+            printf("Client stopping \n");
+            finished = 1;
+        }
+
+        printf("------\n");
+        retcode = send(client_s, out_buf, strlen(out_buf), 0);
+
+        if (retcode < 0) {
+            printf("*** ERROR - send() failed \n");
+            exit(-1);
+        }
+
+        // Receive from the server using the client socket
+        retcode = recv(client_s, in_buf, sizeof(in_buf), 0);
+
+        if (retcode < 0) {
+            printf("*** ERROR - recv() failed \n");
+            close(client_s);
+            exit(-1);
+        }
+
+        // Output received message
+        printf("Received from server: %s \n", in_buf);
+    }
+
+    // Close the client socket
+    retcode = close(client_s);
+    if (retcode < 0) {
+        printf("*** ERROR - close() failed \n");
+        exit(-1);
+    }
+}
+
+void *multicast_receiver(void *in_arg)
+{
+    struct sockaddr_in addr;
+    int fd, nbytes,addrlen;
+    struct ip_mreq mreq;
+    char msgbuf[MSGBUFSIZE];
+
+    u_int yes=1;            /*** MODIFICATION TO ORIGINAL */
+
+    /* create what looks like an ordinary UDP socket */
+    if ((fd=socket(AF_INET,SOCK_DGRAM,0)) < 0) {
+        perror("socket");
+        exit(1);
+    }
+
+    /**** MODIFICATION TO ORIGINAL */
+    /* allow multiple sockets to use the same PORT number */
+    if (setsockopt(fd,SOL_SOCKET,SO_REUSEADDR,&yes,sizeof(yes)) < 0) {
+        perror("Reusing ADDR failed");
+        exit(1);
+    }
+    /*** END OF MODIFICATION TO ORIGINAL */
+
+    /* set up destination address */
+    memset(&addr,0,sizeof(addr));
+    addr.sin_family=AF_INET;
+    addr.sin_addr.s_addr=htonl(INADDR_ANY); /* N.B.: differs from sender */
+    addr.sin_port=htons(MULTICAST_PORT);
+    
+    /* bind to receive address */
+    if (bind(fd,(struct sockaddr *) &addr,sizeof(addr)) < 0) {
+        perror("bind");
+        exit(1);
+    }
+
+    /* use setsockopt() to request that the kernel join a multicast group */
+    mreq.imr_multiaddr.s_addr=inet_addr(MULTICAST_GROUP);
+    mreq.imr_interface.s_addr=htonl(INADDR_ANY);
+    if (setsockopt(fd,IPPROTO_IP,IP_ADD_MEMBERSHIP,&mreq,sizeof(mreq)) < 0) {
+        perror("setsockopt");
+        exit(1);
+    }
+
+    /* now just enter a read-print loop */
+    while (1) {
+        addrlen=sizeof(addr);
+        if ((nbytes=recvfrom(fd,msgbuf,MSGBUFSIZE,0,
+                (struct sockaddr *) &addr,&addrlen)) < 0) {
+            perror("recvfrom");
+            exit(1);
+        }
+
+        puts(msgbuf);
+    }
+}
