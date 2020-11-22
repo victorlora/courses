@@ -1,0 +1,171 @@
+mysql> source hw7.sql
+--------------
+SELECT 	e.fname, e.lname, wo.pno
+FROM	Works_On wo
+			INNER JOIN Employee e ON wo.essn = e.ssn
+WHERE	wo.pno NOT IN ( SELECT wo.pno
+						FROM Works_On wo
+								INNER JOIN Employee e ON wo.essn = e.ssn
+						WHERE e.lname = 'Wong')
+ORDER BY e.fname, e.lname, wo.pno
+--------------
+
++----------+---------+-----+
+| fname    | lname   | pno |
++----------+---------+-----+
+| Ahmad    | Jabbar  |  30 |
+| Alec     | Best    |  91 |
+| Alex     | Freed   |  91 |
+| Alicia   | Zelaya  |  30 |
+| Andy     | Vile    |  62 |
+| Arnold   | Head    |  62 |
+| Billie   | King    |  91 |
+| Bonnie   | Bays    |  91 |
+| Brad     | Knight  |  61 |
+| Carl     | Reedy   |  61 |
+| Chris    | Carter  |  62 |
+| Evan     | Wallis  |  62 |
+| Gerald   | Small   |  61 |
+| Helga    | Pataki  |  63 |
+| Jared    | James   |  61 |
+| Jeff     | Chase   |  63 |
+| Jennifer | Wallace |  30 |
+| Jenny    | Vos     |  62 |
+| Jill     | Jarvis  |  91 |
+| John     | James   |  92 |
+| John     | Smith   |   1 |
+| Jon      | Jones   |  61 |
+| Jon      | Kramer  |  92 |
+| Josh     | Zell    |  62 |
+| Joyce    | English |   1 |
+| Joyce    | English |  30 |
+| Joyce    | English |  61 |
+| Joyce    | English |  62 |
+| Joyce    | English |  63 |
+| Joyce    | English |  91 |
+| Joyce    | English |  92 |
+| Justin   | Mark    |  61 |
+| Kim      | Grace   |  63 |
+| Lyle     | Leslie  |  91 |
+| Nandita  | Ball    |  92 |
+| Naveen   | Drew    |  61 |
+| Ray      | King    |  91 |
+| Sam      | Snedden |  91 |
+| Sammy    | Hall    |  61 |
+| Tammy    | Kuhns   |   1 |
+| Tammy    | Kuhns   |  30 |
+| Tammy    | Kuhns   |  61 |
+| Tammy    | Kuhns   |  62 |
+| Tammy    | Kuhns   |  63 |
+| Tammy    | Kuhns   |  91 |
+| Tammy    | Kuhns   |  92 |
+| Tom      | Brand   |  62 |
++----------+---------+-----+
+47 rows in set (0.00 sec)
+
+--------------
+SELECT 	e.fname, e.lname, COUNT(d.essn)
+FROM	Dependent d
+			INNER JOIN Employee e ON d.essn = e.ssn
+GROUP BY d.essn
+ORDER BY e.fname, e.lname, COUNT(d.essn)
+--------------
+
++----------+---------+---------------+
+| fname    | lname   | COUNT(d.essn) |
++----------+---------+---------------+
+| Alec     | Best    |             1 |
+| Alex     | Freed   |             3 |
+| Bonnie   | Bays    |             1 |
+| Franklin | Wong    |             3 |
+| Jennifer | Wallace |             1 |
+| John     | Smith   |             3 |
++----------+---------+---------------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT 	e.fname, e.lname
+FROM	Employee e
+			INNER JOIN Works_On wo ON wo.essn = e.ssn
+			INNER JOIN Project p ON wo.pno = p.pnumber
+WHERE	p.dnum = 4
+ORDER BY e.fname, e.lname
+--------------
+
++----------+---------+
+| fname    | lname   |
++----------+---------+
+| Ahmad    | Jabbar  |
+| Ahmad    | Jabbar  |
+| Alicia   | Zelaya  |
+| Alicia   | Zelaya  |
+| Franklin | Wong    |
+| Jennifer | Wallace |
+| Joyce    | English |
+| Joyce    | English |
+| Tammy    | Kuhns   |
+| Tammy    | Kuhns   |
++----------+---------+
+10 rows in set (0.00 sec)
+
+--------------
+SELECT 	e.fname, e.lname
+FROM	Employee e
+			INNER JOIN Dependent d ON d.essn = e.ssn
+WHERE	e.super_ssn IS NULL
+GROUP BY d.essn
+HAVING COUNT(d.essn) > 1
+ORDER BY e.fname, e.lname
+--------------
+
++-------+-------+
+| fname | lname |
++-------+-------+
+| Alex  | Freed |
++-------+-------+
+1 row in set (0.01 sec)
+
+--------------
+SELECT 	e.fname, e.lname, d.dname
+FROM	Employee e
+			INNER JOIN Department d ON e.dno = d.dnumber
+WHERE	e.dno = (SELECT dno
+				 FROM	Employee e
+				 HAVING MAX(salary))
+ORDER BY e.fname, e.lname, d.dname
+--------------
+
++---------+--------+----------+
+| fname   | lname  | dname    |
++---------+--------+----------+
+| Brad    | Knight | Software |
+| Jared   | James  | Software |
+| Jeff    | Chase  | Software |
+| John    | James  | Software |
+| Jon     | Jones  | Software |
+| Justin  | Mark   | Software |
+| Kim     | Grace  | Software |
+| Nandita | Ball   | Software |
++---------+--------+----------+
+8 rows in set (0.00 sec)
+
+--------------
+SELECT e1.fname, e1.lname
+FROM Employee e1
+		INNER JOIN Employee e2 ON e1.super_ssn = e2.ssn
+WHERE e2.super_ssn = 888665555
+ORDER BY e1.fname, e1.lname
+--------------
+
++--------+---------+
+| fname  | lname   |
++--------+---------+
+| Ahmad  | Jabbar  |
+| Alicia | Zelaya  |
+| John   | Smith   |
+| Joyce  | English |
+| Ramesh | Narayan |
++--------+---------+
+5 rows in set (0.00 sec)
+
+mysql> exit

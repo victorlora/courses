@@ -1,0 +1,273 @@
+-- Author: Victor A. Lora
+-- Course: CSI-305
+-- Date: 03/15/16
+-- Description: SQL Exercises - Single Table
+
+-- a. List the names and phone numbers of all library patrons.
+--
+-- Select statement performs a project on names and phone numbers
+-- on the table Borrower
+mysql> SELECT Name, Phone
+    -> FROM library.Borrower;
+--------------
+SELECT Name, Phone
+FROM library.Borrower
+--------------
+
++------------+--------------+
+| Name       | Phone        |
++------------+--------------+
+| Smith, J   | 610-555-3345 |
+| Jones, K   | 610-222-2222 |
+| Smyth, L   | 610-333-3333 |
+| Dunham,W   | 610-444-4444 |
+| Nelson, D  | 610-555-5555 |
+| Meyer, J   | 610-666-6666 |
+| Rykken, E  | 610-777-7777 |
+| McGuire, L | 610-888-8888 |
+| Miller, L  | 610-999-9999 |
++------------+--------------+
+9 rows in set (0.00 sec)
+
+-- b. List bookids from branchid '20202020' with number of copies over 4.
+--
+-- Performs a projection on Book_Id and a select on NoOfCopies > 4.
+mysql> SELECT Book_Id
+    -> FROM library.Book_Copies
+    -> WHERE Branch_Id = 20202020
+    -> AND No_Of_Copies > 4;
+--------------
+SELECT Book_Id
+FROM library.Book_Copies
+WHERE Branch_Id = 20202020
+AND No_Of_Copies > 4
+--------------
+
++----------+
+| Book_Id  |
++----------+
+| 11111111 |
+| 11112222 |
+| 55556666 |
+| 77778888 |
++----------+
+4 rows in set (0.00 sec)
+
+-- c. List bookid, branchid, and cardno for all books with due date on
+-- on May 12th. Note: the format of the data is 'yyyy-mm-dd'.
+--
+-- Performs a project on bookid, branchid and cardno and a select on
+-- data '2015-05-12'
+mysql> SELECT Book_Id, Branch_Id, Card_No
+    -> FROM library.Book_Loans
+    -> WHERE Due_Date = '2015-05-12';
+--------------
+SELECT Book_Id, Branch_Id, Card_No
+FROM library.Book_Loans
+WHERE Due_Date = '2015-05-12'
+--------------
+
++----------+-----------+---------+
+| Book_Id  | Branch_Id | Card_No |
++----------+-----------+---------+
+| 11111111 | 10111111  | DDD444  |
+| 11112222 | 10111111  | AAA111  |
+| 11112222 | 10111111  | FFF666  |
+| 22223333 | 10111111  | GGG777  |
+| 33333333 | 10111111  | FFF666  |
+| 44445555 | 10111111  | FFF666  |
+| 44445555 | 10111111  | HHH888  |
+| 55555555 | 10111111  | FFF666  |
+| 55555555 | 10111111  | HHH888  |
+| 55555555 | 33331234  | EEE555  |
+| 66667777 | 10111111  | EEE555  |
+| 77778888 | 20202020  | FFF666  |
++----------+-----------+---------+
+12 rows in set (0.00 sec)
+
+-- d. Using the book_copies table, find the total number of books at
+-- each branch. Display the branchid and total.
+--
+-- Performs a projection on Branch_Id and an aggregate function SUM
+-- which returns the total number of book copies per branch.
+mysql> SELECT Branch_Id, SUM(No_Of_Copies)
+    -> FROM library.Book_Copies
+    -> GROUP BY Branch_Id;
+--------------
+SELECT Branch_Id, SUM(No_Of_Copies)
+FROM library.Book_Copies
+GROUP BY Branch_Id
+--------------
+
++-----------+-------------------+
+| Branch_Id | SUM(No_Of_Copies) |
++-----------+-------------------+
+| 10111111  |                49 |
+| 20202020  |                42 |
+| 33331234  |                52 |
++-----------+-------------------+
+3 rows in set (0.00 sec)
+
+-- e. Using the book_copies table, find the average number of copies
+-- of each title per branch. Display the bookid and average.
+--
+-- Performs a project on Book_Id and aggregate function AVG to find
+-- the average number of copies of a given title at each branch.
+--
+-- Note: For clarity, it may be better to add branchid as this gives a
+-- better idea of why the bookids are repeated.
+mysql> SELECT Book_Id, AVG(No_Of_Copies)
+    -> FROM library.Book_Copies
+    -> GROUP BY Book_Id, Branch_Id;
+--------------
+SELECT Book_Id, AVG(No_Of_Copies)
+FROM library.Book_Copies
+GROUP BY Book_Id, Branch_Id
+--------------
+
++----------+-------------------+
+| Book_Id  | AVG(No_Of_Copies) |
++----------+-------------------+
+| 11111111 |            8.0000 |
+| 11111111 |            6.0000 |
+| 11111111 |            7.0000 |
+| 11112222 |            4.0000 |
+| 11112222 |            5.0000 |
+| 11112222 |            3.0000 |
+| 22222222 |            2.0000 |
+| 22222222 |            5.0000 |
+| 22223333 |            4.0000 |
+| 22223333 |            2.0000 |
+| 22223333 |            7.0000 |
+| 33333333 |            3.0000 |
+| 33333333 |            4.0000 |
+| 33334444 |            2.0000 |
+| 33334444 |            1.0000 |
+| 44444444 |            6.0000 |
+| 44444444 |            3.0000 |
+| 44445555 |            6.0000 |
+| 44445555 |            2.0000 |
+| 55555555 |            5.0000 |
+| 55555555 |            2.0000 |
+| 55555555 |            6.0000 |
+| 55556666 |            8.0000 |
+| 55556666 |            4.0000 |
+| 66666666 |            6.0000 |
+| 66667777 |            2.0000 |
+| 66667777 |            4.0000 |
+| 66667777 |            5.0000 |
+| 77778888 |            5.0000 |
+| 77778888 |            2.0000 |
+| 88889999 |            6.0000 |
+| 88889999 |            3.0000 |
+| 99990000 |            3.0000 |
+| 99990000 |            2.0000 |
++----------+-------------------+
+34 rows in set (0.00 sec)
+
+-- f. Using the book_copies table, find the number of different 
+--    titles at each branch.
+--
+-- This select statement performs a project on the branchid and
+-- the number of different titles the branch has.
+mysql> SELECT Branch_Id, COUNT(Book_Id)
+    -> FROM library.Book_Copies
+    -> GROUP BY Branch_Id;
+--------------
+SELECT Branch_Id, COUNT(Book_Id)
+FROM library.Book_Copies
+GROUP BY Branch_Id
+--------------
+
++-----------+----------------+
+| Branch_Id | COUNT(Book_Id) |
++-----------+----------------+
+| 10111111  |             11 |
+| 20202020  |             11 |
+| 33331234  |             12 |
++-----------+----------------+
+3 rows in set (0.00 sec)
+
+-- g. List the cardno of borrowers that have loaned books - no duplicates!
+--
+-- This select statement performs a project on cardno with loaned books
+mysql> SELECT DISTINCT Card_No
+    -> FROM library.Book_Loans;
+--------------
+SELECT DISTINCT Card_No
+FROM library.Book_Loans
+--------------
+
++---------+
+| Card_No |
++---------+
+| AAA111  |
+| DDD444  |
+| EEE555  |
+| FFF666  |
+| GGG777  |
+| HHH888  |
++---------+
+6 rows in set (0.00 sec)
+
+-- h. List the cardno of borrowers that do not have any books out.
+--
+-- Select projects the cardno's of the individuals in Borrower, that
+-- are not in the list of cardno's with loaned books
+mysql> SELECT Card_No
+    -> FROM library.Borrower
+    -> WHERE Card_No NOT IN (SELECT DISTINCT Card_No FROM library.Book_Loans);
+--------------
+SELECT Card_No
+FROM library.Borrower
+WHERE Card_No NOT IN (SELECT DISTINCT Card_No FROM library.Book_Loans)
+--------------
+
++---------+
+| Card_No |
++---------+
+| BBB222  |
+| CCC333  |
+| III999  |
++---------+
+3 rows in set (0.00 sec)
+
+-- i. List the cardno of each borrower and the number of books borrowed.
+--
+-- Select statement displays the number of books checkout out by a cardno
+-- and includes the members who don't have any checked out.
+mysql> SELECT Card_No, COUNT(Book_Id)
+    -> FROM library.Book_Loans
+    -> GROUP BY Card_No
+    -> UNION
+    -> SELECT Card_No, 0
+    -> FROM library.Borrower
+    -> WHERE Card_No NOT IN (SELECT DISTINCT Card_No FROM library.Book_Loans)
+    -> ORDER BY Card_No;
+--------------
+SELECT Card_No, COUNT(Book_Id)
+FROM library.Book_Loans
+GROUP BY Card_No
+UNION
+SELECT Card_No, 0
+FROM library.Borrower
+WHERE Card_No NOT IN (SELECT DISTINCT Card_No FROM library.Book_Loans)
+ORDER BY Card_No
+--------------
+
++---------+----------------+
+| Card_No | COUNT(Book_Id) |
++---------+----------------+
+| AAA111  |              1 |
+| BBB222  |              0 |
+| CCC333  |              0 |
+| DDD444  |              1 |
+| EEE555  |              6 |
+| FFF666  |              7 |
+| GGG777  |              1 |
+| HHH888  |              5 |
+| III999  |              0 |
++---------+----------------+
+9 rows in set (0.00 sec)
+
+mysql> quit

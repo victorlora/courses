@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<title>Login</title>
+	<link href="../css/boostrap.css" type="text/css" rel="stylesheet">
+	<link href="../css/bootstrap.min.css" type="text/css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-default navbar-fixed">
+	<section class="container-fluid">
+		<section class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</section>
+		<section class="collapse navbar-collapse" id="nav">
+		<ul class="nav navbar-nav">
+			<li><a href="home.html">Home</a></li>
+			<li><a href="addAccount.html">Create An Account</a></li>
+		</ul>
+		</section>
+	</section>
+</nav>
+
+<section class="container">
+	<form id="form" name="form" method="post" action="login.php">
+		<section class="form-group">
+			<label for="userName">Username</label>
+			<input type="text" name="userName" id="userName" class="form-control" value="">
+		</section>
+		<section class="form-group">
+			<label for="password">Password</label>
+			<input type="password" name="password" id="password" class="form-control" value="">
+		</section>
+		<section class="form-group">
+			<button type="submit" class="btn btn-default" id="button" name="button">Submit</button>
+		</section>
+	</form>
+</section>
+
+</body>
+</html>

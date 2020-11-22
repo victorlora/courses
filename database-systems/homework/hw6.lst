@@ -1,0 +1,191 @@
+mysql> source hw6.sql
+--------------
+SELECT 	concat(fname, ' ', minit, ' ', lname) as Employee
+FROM 	Employee e
+	    INNER JOIN Works_On wo
+		ON e.SSN = wo.essn
+	    INNER JOIN Project p
+		ON wo.PNO = p.Pnumber
+WHERE 	Pname = 'ProductX'
+	AND wo.HOURS > 10
+	AND e.DNO = 5
+--------------
+
++-----------------+
+| Employee        |
++-----------------+
+| John B Smith    |
+| Joyce A English |
++-----------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT concat(fname, ' ', minit, ' ', lname) as Employee
+FROM Employee e
+	INNER JOIN Dependent d
+		ON e.ssn = d.essn
+WHERE e.fname = d.dependent_name
+--------------
+
++--------------+
+| Employee     |
++--------------+
+| Alex D Freed |
++--------------+
+1 row in set (0.01 sec)
+
+--------------
+SELECT concat(fname, ' ', minit, ' ', lname) as Employee
+FROM Employee e
+WHERE e.super_ssn = (SELECT ssn
+		     FROM Employee
+		     WHERE fname = 'Franklin'
+			   AND lname = 'Wong' )
+--------------
+
++------------------+
+| Employee         |
++------------------+
+| John B Smith     |
+| Joyce A English  |
+| Ramesh K Narayan |
++------------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT p.Pname, SUM(wo.hours)
+FROM Project p
+	INNER JOIN Works_On wo
+		ON p.Pnumber = wo.pno
+GROUP BY p.Pname
+--------------
+
++-----------------+---------------+
+| Pname           | SUM(wo.hours) |
++-----------------+---------------+
+| Computerization |         75.00 |
+| DatabaseSystems |        308.00 |
+| InkjetPrinters  |        340.00 |
+| LaserPrinters   |        144.00 |
+| Middleware      |        146.00 |
+| Newbenefits     |         75.00 |
+| OperatingSystem |        360.00 |
+| ProductX        |         62.50 |
+| ProductY        |         47.50 |
+| ProductZ        |         70.00 |
+| Reorganization  |         45.00 |
++-----------------+---------------+
+11 rows in set (0.00 sec)
+
+--------------
+SELECT concat(fname, ' ', minit, ' ', lname) as Employee_Name
+FROM Employee e
+WHERE NOT EXISTS (SELECT pnumber
+		  FROM Project p
+		  WHERE NOT EXISTS (SELECT pno
+				    FROM Works_On wo
+				    WHERE e.ssn = wo.essn
+					  AND wo.pno = p.pnumber))
+--------------
+
++-----------------+
+| Employee_Name   |
++-----------------+
+| Joyce A English |
+| Tammy P Kuhns   |
++-----------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT concat(fname, ' ', minit, ' ', lname) as Employee_Name
+FROM Employee e
+WHERE e.ssn NOT IN (SELECT wo.essn
+		    FROM Works_On wo)
+--------------
+
++---------------+
+| Employee_Name |
++---------------+
+| Bob B Bender  |
+| Kate W King   |
++---------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT d.dname, AVG(e.salary)
+FROM Department d
+	INNER JOIN Employee e
+	    ON e.dno = d.dnumber
+GROUP BY d.dnumber
+--------------
+
++----------------+---------------+
+| dname          | AVG(e.salary) |
++----------------+---------------+
+| Headquarters   |  55000.000000 |
+| Administration |  31000.000000 |
+| Research       |  33250.000000 |
+| Software       |  60000.000000 |
+| Hardware       |  63450.000000 |
+| Sales          |  41214.285714 |
++----------------+---------------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT AVG(e.salary)
+FROM Employee e
+WHERE e.Sex = 'F'
+--------------
+
++---------------+
+| AVG(e.salary) |
++---------------+
+|  44583.333333 |
++---------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT concat(e.fname, ' ', e.minit, ' ', e.lname) as Employee_Name, e.Address
+FROM Employee e
+	INNER JOIN Works_On wo
+	    ON e.ssn = wo.essn
+WHERE wo.pno IN (SELECT pnumber
+		 FROM Project p
+		 WHERE p.plocation = 'Houston')
+	  	       AND e.dno NOT IN (SELECT d.dnumber
+	  				 FROM Department d
+	  				          INNER JOIN Dept_Locations dl
+	  				  	      ON d.dnumber = dl.dnumber
+	  				 WHERE dl.dlocation = 'Houston')
+--------------
+
++--------------------+----------------------------+
+| Employee_Name      | Address                    |
++--------------------+----------------------------+
+| Tammy P Kuhns      | 421 Park Street, Miami, FL |
+| Tammy P Kuhns      | 421 Park Street, Miami, FL |
+| Jennifer S Wallace | 291 Berry, Bellaire, TX    |
++--------------------+----------------------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT lname 'Last Name'
+FROM    Employee
+WHERE 	super_ssn IS NULL
+      	AND ssn NOT IN (SELECT essn
+			FROM Dependent)
+--------------
+
++-----------+
+| Last Name |
++-----------+
+| James     |
+| Wallis    |
+| Grace     |
+| James     |
+| Bender    |
+| Borg      |
++-----------+
+6 rows in set (0.00 sec)
+
+mysql> exit

@@ -1,0 +1,209 @@
+mysql> source hw9.sql
+--------------
+DROP TRIGGER removeDeath
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP TABLE myjobdata
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP TABLE retiree_hist
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP TABLE emplinfo
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE TABLE myjobdata
+AS
+SELECT *
+FROM company.jobdata
+--------------
+
+Query OK, 30 rows affected (0.01 sec)
+Records: 30  Duplicates: 0  Warnings: 0
+
+--------------
+CREATE TABLE retiree_hist
+(
+	emplid decimal(6,0) NOT NULL,
+	hire_date date,
+	retire_date date,
+	death_date date,
+	last_department decimal(3,0),
+	title char(15),
+	pay_rate decimal(6,2),
+	PRIMARY KEY(emplid)
+)
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE TABLE emplinfo
+AS
+SELECT DISTINCT mjd.emplid 'EmplId', hire_data.effdt as 'Hire_Date',
+				ret_data.effdt as 'Retire_Date',
+				TIMESTAMPDIFF(YEAR, hire_data.effdt, ret_data.effdt) as 
+				'YearsOnJob', ret_data.title as 'Title', ret_data.payrate,
+				ret_data.dept as 'Last_Department'
+FROM 	myjobdata mjd, myjobdata hire_data, myjobdata ret_data
+WHERE 	mjd.emplid = hire_data.emplid
+		AND mjd.emplid = ret_data.emplid
+		AND hire_data.action = 'HIR'
+		AND ret_data.action = 'RET'
+--------------
+
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT *
+FROM myjobdata
+--------------
+
++--------+------------+--------+--------+------+------------+---------+
+| EmplId | EffDt      | Action | Status | Dept | Title      | PayRate |
++--------+------------+--------+--------+------+------------+---------+
+|    123 | 1990-01-01 | HIR    | A      |  100 | Accountant |   12.00 |
+|    123 | 1991-01-01 | PRC    | A      |  100 | Accountant |   13.00 |
+|    123 | 1992-01-15 | TRN    | A      |  200 | Programmer |   13.00 |
+|    123 | 1993-01-01 | RET    | I      |  200 | Programmer |   13.00 |
+|    321 | 1960-01-01 | HIR    | A      |  300 | Draftsman  |    8.00 |
+|    321 | 1970-01-01 | TRN    | A      |  100 | Accountant |    8.00 |
+|    321 | 1970-01-02 | PRC    | A      |  100 | Accountant |   10.00 |
+|    321 | 1980-01-01 | RET    | I      |  100 | Accountant |   10.00 |
+|    444 | 1992-05-01 | HIR    | A      |  300 | Draftsman  |   15.25 |
+|    634 | 1990-01-01 | HIR    | A      |  300 | Draftsman  |   16.00 |
+|    634 | 1991-04-01 | PRC    | A      |  300 | Draftsman  |   16.75 |
+|   6520 | 1994-05-05 | HIR    | A      |  100 | Accountant |   16.00 |
+|   6520 | 1995-04-01 | PRC    | A      |  100 | Accountant |   19.75 |
+|   6520 | 1997-04-01 | TRN    | A      |  200 | Programmer |   29.75 |
+|   7720 | 1984-05-05 | HIR    | A      |  100 | Accountant |   11.00 |
+|   7720 | 1995-04-01 | PRC    | A      |  100 | Accountant |   19.75 |
+|   7720 | 1997-04-01 | RET    | I      |  100 | Accountant |   19.75 |
+|   9876 | 1995-05-05 | HIR    | A      |  100 | Accountant |   16.00 |
+|   9876 | 2002-04-01 | PRC    | A      |  100 | Accountant |   19.75 |
+|   9876 | 2006-04-01 | TRN    | A      |  200 | Programmer |   29.75 |
+|  12345 | 1983-01-01 | HIR    | A      |  300 | Draftsman  |    8.00 |
+|  12345 | 1985-01-01 | TRN    | A      |  100 | Accountant |    8.00 |
+|  12345 | 1990-01-02 | PRC    | A      |  100 | Accountant |   10.00 |
+|  54321 | 1985-01-01 | TRN    | A      |  100 | Accountant |    8.00 |
+|  54321 | 1990-01-02 | PRC    | A      |  100 | Accountant |   10.00 |
+|  54321 | 1993-01-01 | HIR    | A      |  300 | Draftsman  |    8.00 |
+|  54321 | 1997-01-01 | RET    | I      |  100 | Accountant |   10.00 |
+|  99999 | 1993-01-01 | HIR    | A      |  300 | Draftsman  |    8.00 |
+|  99999 | 1995-01-01 | TRN    | A      |  100 | Accountant |    8.00 |
+|  99999 | 1998-01-02 | PRC    | A      |  100 | Accountant |   10.00 |
++--------+------------+--------+--------+------+------------+---------+
+30 rows in set (0.00 sec)
+
+--------------
+SELECT *
+FROM emplinfo
+--------------
+
++--------+------------+-------------+------------+------------+---------+-----------------+
+| EmplId | Hire_Date  | Retire_Date | YearsOnJob | Title      | payrate | Last_Department |
++--------+------------+-------------+------------+------------+---------+-----------------+
+|    123 | 1990-01-01 | 1993-01-01  |          3 | Programmer |   13.00 |             200 |
+|    321 | 1960-01-01 | 1980-01-01  |         20 | Accountant |   10.00 |             100 |
+|   7720 | 1984-05-05 | 1997-04-01  |         12 | Accountant |   19.75 |             100 |
+|  54321 | 1993-01-01 | 1997-01-01  |          4 | Accountant |   10.00 |             100 |
++--------+------------+-------------+------------+------------+---------+-----------------+
+4 rows in set (0.00 sec)
+
+--------------
+CREATE TRIGGER removeDeath
+AFTER INSERT ON retiree_hist FOR EACH ROW
+BEGIN
+	DELETE FROM myjobdata
+	WHERE emplid = NEW.emplid;
+END;
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+INSERT INTO retiree_hist
+SELECT 	DISTINCT ei.emplid, ei.hire_date, ei.retire_date, curdate(), ei.last_department,
+		ei.title, ei.payrate
+FROM	emplinfo ei
+WHERE	ei.emplid = 54321
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT *
+FROM retiree_hist
+--------------
+
++--------+------------+-------------+------------+-----------------+------------+----------+
+| emplid | hire_date  | retire_date | death_date | last_department | title      | pay_rate |
++--------+------------+-------------+------------+-----------------+------------+----------+
+|  54321 | 1993-01-01 | 1997-01-01  | 2016-04-08 |             100 | Accountant |    10.00 |
++--------+------------+-------------+------------+-----------------+------------+----------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT *
+FROM myjobdata
+--------------
+
++--------+------------+--------+--------+------+------------+---------+
+| EmplId | EffDt      | Action | Status | Dept | Title      | PayRate |
++--------+------------+--------+--------+------+------------+---------+
+|    123 | 1990-01-01 | HIR    | A      |  100 | Accountant |   12.00 |
+|    123 | 1991-01-01 | PRC    | A      |  100 | Accountant |   13.00 |
+|    123 | 1992-01-15 | TRN    | A      |  200 | Programmer |   13.00 |
+|    123 | 1993-01-01 | RET    | I      |  200 | Programmer |   13.00 |
+|    321 | 1960-01-01 | HIR    | A      |  300 | Draftsman  |    8.00 |
+|    321 | 1970-01-01 | TRN    | A      |  100 | Accountant |    8.00 |
+|    321 | 1970-01-02 | PRC    | A      |  100 | Accountant |   10.00 |
+|    321 | 1980-01-01 | RET    | I      |  100 | Accountant |   10.00 |
+|    444 | 1992-05-01 | HIR    | A      |  300 | Draftsman  |   15.25 |
+|    634 | 1990-01-01 | HIR    | A      |  300 | Draftsman  |   16.00 |
+|    634 | 1991-04-01 | PRC    | A      |  300 | Draftsman  |   16.75 |
+|   6520 | 1994-05-05 | HIR    | A      |  100 | Accountant |   16.00 |
+|   6520 | 1995-04-01 | PRC    | A      |  100 | Accountant |   19.75 |
+|   6520 | 1997-04-01 | TRN    | A      |  200 | Programmer |   29.75 |
+|   7720 | 1984-05-05 | HIR    | A      |  100 | Accountant |   11.00 |
+|   7720 | 1995-04-01 | PRC    | A      |  100 | Accountant |   19.75 |
+|   7720 | 1997-04-01 | RET    | I      |  100 | Accountant |   19.75 |
+|   9876 | 1995-05-05 | HIR    | A      |  100 | Accountant |   16.00 |
+|   9876 | 2002-04-01 | PRC    | A      |  100 | Accountant |   19.75 |
+|   9876 | 2006-04-01 | TRN    | A      |  200 | Programmer |   29.75 |
+|  12345 | 1983-01-01 | HIR    | A      |  300 | Draftsman  |    8.00 |
+|  12345 | 1985-01-01 | TRN    | A      |  100 | Accountant |    8.00 |
+|  12345 | 1990-01-02 | PRC    | A      |  100 | Accountant |   10.00 |
+|  99999 | 1993-01-01 | HIR    | A      |  300 | Draftsman  |    8.00 |
+|  99999 | 1995-01-01 | TRN    | A      |  100 | Accountant |    8.00 |
+|  99999 | 1998-01-02 | PRC    | A      |  100 | Accountant |   10.00 |
++--------+------------+--------+--------+------+------------+---------+
+26 rows in set (0.00 sec)
+
+--------------
+SELECT *
+FROM retiree_hist
+--------------
+
++--------+------------+-------------+------------+-----------------+------------+----------+
+| emplid | hire_date  | retire_date | death_date | last_department | title      | pay_rate |
++--------+------------+-------------+------------+-----------------+------------+----------+
+|  54321 | 1993-01-01 | 1997-01-01  | 2016-04-08 |             100 | Accountant |    10.00 |
++--------+------------+-------------+------------+-----------------+------------+----------+
+1 row in set (0.00 sec)
+
+mysql> exit

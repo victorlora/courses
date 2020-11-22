@@ -1,0 +1,212 @@
+mysql> source hw5_multi-table.sql
+--------------
+SELECT 	No_Of_Copies
+FROM 	Book_Copies bc
+		INNER JOIN Book b 
+			ON bc.Book_Id = b.Book_Id
+		INNER JOIN Library_Branch lb 
+			ON bc.Branch_id = lb.Branch_Id
+WHERE 	Title = 'The Lost Tribe'
+	AND Branch_Name = 'Sharpstown'
+--------------
+
++--------------+
+| No_Of_Copies |
++--------------+
+|            4 |
++--------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT 	lb.Branch_Name, No_Of_Copies
+FROM 	Book_Copies bc
+		INNER JOIN Book b 
+			ON bc.Book_Id = b.Book_Id
+		INNER JOIN Library_Branch lb 
+			ON bc.Branch_id = lb.Branch_Id
+WHERE 	Title = 'The Lost Tribe'
+--------------
+
++-------------+--------------+
+| Branch_Name | No_Of_Copies |
++-------------+--------------+
+| Sharpstown  |            4 |
+| Central     |            2 |
+| Allentown   |            7 |
++-------------+--------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT 	Name
+FROM	Borrower b
+WHERE	NOT EXISTS (SELECT bl.Card_No
+		    FROM Book_Loans bl 
+		    WHERE b.Card_No = bl.Card_No)
+--------------
+
++-----------+
+| Name      |
++-----------+
+| Jones, K  |
+| Smyth, L  |
+| Miller, L |
++-----------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT 	Book.Title, b.Name, b.Address
+FROM 	Book_Loans bl
+		INNER JOIN Book 
+			ON Book.Book_Id = bl.Book_Id
+		INNER JOIN Borrower b 
+			ON b.Card_No = bl.Card_No
+		INNER JOIN Library_Branch lb 
+			ON lb.Branch_Id = bl.Branch_Id
+WHERE 	lb.Branch_Name = 'Sharpstown'
+	AND bl.Due_Date = '2015-05-12'
+--------------
+
++----------------+------------+-----------+
+| Title          | Name       | Address   |
++----------------+------------+-----------+
+| Middlemarch    | Smith, J   | 666 Pine  |
+| Growing Up     | Dunham,W   | 444 Oak   |
+| Quake          | Nelson, D  | 555 Maple |
+| Middlemarch    | Meyer, J   | 666 Maple |
+| Titan          | Meyer, J   | 666 Maple |
+| The Iliad      | Meyer, J   | 666 Maple |
+| May 1940       | Meyer, J   | 666 Maple |
+| The Lost Tribe | Rykken, E  | 777 Pine  |
+| The Iliad      | McGuire, L | 888 Birch |
+| May 1940       | McGuire, L | 888 Birch |
++----------------+------------+-----------+
+10 rows in set (0.00 sec)
+
+--------------
+SELECT 	lb.Branch_Name, count(bl.Book_Id)
+FROM 	Book_Loans bl
+		INNER JOIN Library_Branch lb 
+			ON lb.Branch_Id = bl.Branch_Id
+GROUP BY lb.Branch_Name
+--------------
+
++-------------+-------------------+
+| Branch_Name | count(bl.Book_Id) |
++-------------+-------------------+
+| Allentown   |                 2 |
+| Central     |                 3 |
+| Sharpstown  |                16 |
++-------------+-------------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT 	b.Name, b.Address, count(bl.Book_Id) as No_Of_Borrowed_Books
+FROM 	Book_Loans bl
+		INNER JOIN Borrower b 
+			ON bl.Card_No = b.Card_No
+GROUP BY bl.Card_No
+HAVING No_Of_Borrowed_Books > 2
+--------------
+
++------------+-----------+----------------------+
+| Name       | Address   | No_Of_Borrowed_Books |
++------------+-----------+----------------------+
+| Nelson, D  | 555 Maple |                    6 |
+| Meyer, J   | 666 Maple |                    7 |
+| McGuire, L | 888 Birch |                    5 |
++------------+-----------+----------------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT 	b.Title, lb.Branch_Name, No_Of_Copies
+FROM 	Book_Copies bc
+		INNER JOIN Book b 
+			ON bc.Book_Id = b.Book_Id
+		INNER JOIN Library_Branch lb 
+			ON bc.Branch_id = lb.Branch_Id
+		INNER JOIN Book_Authors ba 
+			ON bc.Book_Id = ba.Book_Id
+WHERE 	ba.Author_Name = 'Stephen King'
+	AND lb.Branch_Name = 'Central'
+--------------
+
++----------------+-------------+--------------+
+| Title          | Branch_Name | No_Of_Copies |
++----------------+-------------+--------------+
+| The Lost Tribe | Central     |            2 |
+| Scary Story    | Central     |            8 |
+| Quake          | Central     |            4 |
++----------------+-------------+--------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT 	b.Title, lb.Branch_Name, bwr.Name
+FROM 	Book_Loans bl
+		INNER JOIN Book b 
+			ON bl.Book_Id = b.Book_Id
+		INNER JOIN Library_Branch lb 
+			ON bl.Branch_id = lb.Branch_Id
+		INNER JOIN Borrower bwr 
+			ON bl.Card_No = bwr.Card_No
+ORDER BY b.Title, lb.Branch_Name, bwr.Name
+--------------
+
++-----------------+-------------+------------+
+| Title           | Branch_Name | Name       |
++-----------------+-------------+------------+
+| Grapes of Wrath | Central     | Meyer, J   |
+| Growing Up      | Sharpstown  | Dunham,W   |
+| Growing Up      | Sharpstown  | Meyer, J   |
+| Last Tales      | Sharpstown  | Nelson, D  |
+| May 1940        | Allentown   | Nelson, D  |
+| May 1940        | Sharpstown  | McGuire, L |
+| May 1940        | Sharpstown  | Meyer, J   |
+| Middlemarch     | Sharpstown  | Meyer, J   |
+| Middlemarch     | Sharpstown  | Smith, J   |
+| Oliver Twist    | Sharpstown  | Nelson, D  |
+| Quake           | Sharpstown  | Nelson, D  |
+| Silas Marner    | Sharpstown  | McGuire, L |
+| The Fight       | Allentown   | Nelson, D  |
+| The Fight       | Sharpstown  | McGuire, L |
+| The Fight       | Sharpstown  | Meyer, J   |
+| The Iliad       | Sharpstown  | McGuire, L |
+| The Iliad       | Sharpstown  | Meyer, J   |
+| The Lost Tribe  | Central     | Nelson, D  |
+| The Lost Tribe  | Sharpstown  | Rykken, E  |
+| The Year 1000   | Central     | McGuire, L |
+| Titan           | Sharpstown  | Meyer, J   |
++-----------------+-------------+------------+
+21 rows in set (0.00 sec)
+
+--------------
+SELECT 	b.Title, lb.Branch_Name, No_of_Copies
+FROM 	Book_Copies bc
+		INNER JOIN Book b 
+			ON bc.Book_Id = b.Book_Id
+		INNER JOIN Library_Branch lb 
+			ON bc.Branch_id = lb.Branch_Id
+WHERE 	b.Title = 'Grapes of Wrath'
+UNION
+SELECT 	'Grapes of Wrath', lb.Branch_Name, 0
+FROM 	Book_Copies bc
+		INNER JOIN Library_Branch lb 
+			ON bc.Branch_id = lb.Branch_Id
+WHERE 	lb.Branch_Id NOT IN (SELECT lb.Branch_Id
+			     FROM Book_Copies bc
+					  INNER JOIN Library_Branch lb 
+						ON lb.Branch_Id = bc.Branch_Id
+				          INNER JOIN Book b 
+						ON bc.Book_Id = b.Book_Id
+		             WHERE b.Title = 'Grapes of Wrath')
+--------------
+
++-----------------+-------------+--------------+
+| Title           | Branch_Name | No_of_Copies |
++-----------------+-------------+--------------+
+| Grapes of Wrath | Central     |            5 |
+| Grapes of Wrath | Allentown   |            2 |
+| Grapes of Wrath | Sharpstown  |            0 |
++-----------------+-------------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> notee

@@ -1,0 +1,128 @@
+mysql> source hw8.sql
+--------------
+CREATE TABLE myjobdata
+AS
+SELECT *
+FROM company.jobdata
+--------------
+
+Query OK, 30 rows affected (0.02 sec)
+Records: 30  Duplicates: 0  Warnings: 0
+
+--------------
+CREATE VIEW jobdata_question2
+AS
+SELECT DISTINCT mjd.emplid 'EmplId', hire_data.effdt as 'Hire Date',
+				ret_data.effdt as 'Retire Date',
+				TIMESTAMPDIFF(YEAR, hire_data.effdt, ret_data.effdt) as 
+				'Years on Job', ret_data.title as 'Final Title'
+FROM 	myjobdata mjd, myjobdata hire_data, myjobdata ret_data
+WHERE 	mjd.emplid = hire_data.emplid
+		AND mjd.emplid = ret_data.emplid
+		AND hire_data.action = 'HIR'
+		AND ret_data.action = 'RET'
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+CREATE VIEW jobdata_question3
+AS
+SELECT 	title, dept, COUNT(emplid), AVG(payrate)
+FROM	myjobdata mjd1
+WHERE	status = 'A'
+		AND effdt = (SELECT MAX(effdt)
+					 FROM myjobdata mjd2
+					 WHERE mjd2.emplid = mjd1.emplid)
+GROUP BY title, dept
+ORDER BY dept
+--------------
+
+ERROR 1050 (42S01): Table 'jobdata_question3' already exists
+--------------
+SELECT *
+FROM jobdata_question2
+--------------
+
++--------+------------+-------------+--------------+-------------+
+| EmplId | Hire Date  | Retire Date | Years on Job | Final Title |
++--------+------------+-------------+--------------+-------------+
+|    123 | 1990-01-01 | 1993-01-01  |            3 | Programmer  |
+|    321 | 1960-01-01 | 1980-01-01  |           20 | Accountant  |
+|   7720 | 1984-05-05 | 1997-04-01  |           12 | Accountant  |
+|  54321 | 1993-01-01 | 1997-01-01  |            4 | Accountant  |
++--------+------------+-------------+--------------+-------------+
+4 rows in set (0.00 sec)
+
+--------------
+SELECT *
+FROM jobdata_question3
+--------------
+
++------------+------+---------------+--------------+
+| title      | dept | COUNT(emplid) | AVG(payrate) |
++------------+------+---------------+--------------+
+| Accountant |  100 |             2 |    10.000000 |
+| Programmer |  200 |             2 |    29.750000 |
+| Draftsman  |  300 |             2 |    16.000000 |
++------------+------+---------------+--------------+
+3 rows in set (0.00 sec)
+
+--------------
+INSERT INTO myjobdata
+	(EmplId, EffDt, Action, Status, Dept, Title, Payrate)
+VALUES
+	(99999, '1999-01-25', 'RET', 'I', 100, 'Accountant', 10.00)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT *
+FROM jobdata_question2
+--------------
+
++--------+------------+-------------+--------------+-------------+
+| EmplId | Hire Date  | Retire Date | Years on Job | Final Title |
++--------+------------+-------------+--------------+-------------+
+|    123 | 1990-01-01 | 1993-01-01  |            3 | Programmer  |
+|    321 | 1960-01-01 | 1980-01-01  |           20 | Accountant  |
+|   7720 | 1984-05-05 | 1997-04-01  |           12 | Accountant  |
+|  54321 | 1993-01-01 | 1997-01-01  |            4 | Accountant  |
+|  99999 | 1993-01-01 | 1999-01-25  |            6 | Accountant  |
++--------+------------+-------------+--------------+-------------+
+5 rows in set (0.00 sec)
+
+--------------
+SELECT *
+FROM jobdata_question3
+--------------
+
++------------+------+---------------+--------------+
+| title      | dept | COUNT(emplid) | AVG(payrate) |
++------------+------+---------------+--------------+
+| Accountant |  100 |             1 |    10.000000 |
+| Programmer |  200 |             2 |    29.750000 |
+| Draftsman  |  300 |             2 |    16.000000 |
++------------+------+---------------+--------------+
+3 rows in set (0.00 sec)
+
+--------------
+DROP TABLE myjobdata
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP VIEW jobdata_question2
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP VIEW jobdata_question3
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> exit
