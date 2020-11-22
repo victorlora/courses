@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!-- 
+    Account: csi345_13
+    File: ~/www/labs/lab9/lab9.html
+    Honor Code: We pledge the AIC: Casie Ropski; Victor Lora
+-->
+<html lang="en"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>
+      Lab 9: JavaScript Form Validation
+    </title>
+    <meta name="description" content="CS Lab 9 ">
+    <meta name="keywords" content="CS">
+    <meta name="author" content="Casie Ropski; Victor Lora">
+    <script type="text/javascript" src="lab9.js"></script>
+  </head>
+  <body>
+    <h1>
+      Lab 9: JavaScript Form Validation
+    </h1>
+    <p>
+      Interested is a project bid? Please fill out the information below and we will respond within 24 hours.
+    </p>
+    <form id="contactForm" action="lab9.html">
+      <fieldset>
+        <legend>Contact Details</legend>
+        <p>
+          <label for="custname">Name</label> 
+          <input id="custname" name="custname">
+          Required
+        </p>
+        <p>
+          <label for="company">Company</label> 
+          <input id="company" name="company" type="text">
+          Optional
+        </p>
+        <p>
+          <label for="email">Email</label> 
+          <input id="email" name="email" type="text">
+          Required
+        </p>
+        <p>
+          <label for="telephone">Telephone</label> 
+          <input id="telephone" name="telephone" type="text">
+          Optional
+        </p>
+        <p>
+          <label for="website">Website</label> 
+          <input id="website" name="website" type="text">
+          Required
+        </p>
+        <p>
+          <input class="submit" name="submit" value="Submit Contact Details" type="submit">
+          <input value="clear" type="reset">
+        </p>
+      </fieldset>
+    </form>
+  
+		 <form id="projectDetailsForm" action="lab9.html">
+      <fieldset>
+        <legend>Project Details</legend>
+        <p>
+          <label for="projectType">Type of Project</label> <select id="projectType" name="projectType">
+            <option value="0">
+              Select Project Type
+            </option>
+            <option value="1">
+              HTML
+            </option>
+            <option value="2">
+              CSS
+            </option>
+            <option value="3">
+              PHP
+            </option>
+            <option value="4">
+              Other
+            </option>
+          </select>
+          Required
+        </p>
+        <p>
+          <label for="completionDate">Projected Completion Date</label> 
+          <input id="completionDate" name="completionDate" type="text" />
+          Required
+        </p>
+        <p>
+          <label for="budget">Estimated Budget</label> 
+          <input id="budget" name="budget" type="text" />
+          Optional
+        </p>
+        <p>
+          <label for="details">Additional Details</label> (Optional)<br />
+          <textarea id="details" name="projectDetails" rows="5" cols="35"></textarea>
+          
+        </p>
+        <p>
+          <button type="submit" id="submitButton" name="submitButton" value="submitDetails">Submit Project Details</button>
+          <input type="reset" value="Clear" />
+        </p>
+      </fieldset>
+    </form>
+
+
+
+</body></html>

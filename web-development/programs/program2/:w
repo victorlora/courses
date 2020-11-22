@@ -1,0 +1,23 @@
+form {
+    width: 30em;
+}
+
+legend {
+    color: red;
+}
+
+.formInput {
+    padding-right: 30px;
+    text-align: right;
+}
+
+
+.required {
+    color: red;
+}
+
+#month, #day, #year {
+    width: 50px;
+}
+
+

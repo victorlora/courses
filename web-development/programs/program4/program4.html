@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<!--
+Account: csi345_13
+File: ~/www/programs/program4/program4.html
+A.I.C. Victor A. Lora
+-->
+<html lang="en-US">
+<head>
+  <title>Program4</title>
+  <meta charset="utf-8" />
+  <meta name="description" content="CSI345 Program 4: JavaScript Error Checking" />
+  <meta name="keywords" content="CSI345; Program 4; Javascript; Error Checking" />
+  <meta name="author" content="Victor A. Lora" />
+  <link href="program4.css" type="text/css" rel="stylesheet">
+  <script type="text/javascript" src="program4.js"></script>
+</head>
+<body>
+  <h1>AMC Club Popcorn Sales</h1>
+
+  <form name="form" id="form" action="program4.php" method="GET">
+
+    <label for="buyerName">Buyer's Name:</label>
+    <input id="buyerName" name="buyerName" type="text"> * Required
+    <br><br>
+
+    <label for="address">Street Address:</label>
+    <input id="address" name="address" type="text"> * Required
+    <br><br>
+
+    <label for="city">City, State, Zip:</label>
+    <input id="city" name="city" type="text"> * Required
+    <br><br>
+
+    <table>
+      <caption>Products Avaliable</caption>
+      <tr>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+      </tr>
+      <tr>
+        <th>Unpopped Popcorn (1 lb.)</th>
+        <td>$3.00</td>
+        <td><input type="text" name="unpopped" id="unpopped" size="5"></td>
+      </tr>
+      <tr>
+        <th>Caramel Popcorn (2 lb. cannister)</th>
+        <td>$3.50</td>
+        <td><input type="text" name="caramel" id="caramel" size="5"></td>
+      </tr>
+      <tr>
+        <th>Caramel Nut Popcorn (2 lb. cannister)</th>
+        <td>$4.50</td>
+        <td><input type="text" name="caramelNut" id="caramelNut" size="5"></td>
+      </tr>
+      <tr>
+        <th>Toffey Nut Popcorn (2 lb. cannister)</th>
+        <td>$5.00</td>
+        <td><input type="text" name="toffeyNut" id="toffeyNut" size="5"></td>
+      </tr>
+    </table>
+
+    <fieldset>
+      <legend>Payment Method</legend>
+      <br>
+      <input type="radio" name="paymentType" id="visa" value="visa">Visa
+      <input type="radio" name="paymentType" id="master" value="master">Master Card
+      <input type="radio" name="paymentType" id="check" value="check">Check
+      <br><br>
+      <div>
+        <label for="ccid">Number:</label>
+        <input type="text" name="ccid" id="ccid">
+      </div>
+      <br>
+    </fieldset>
+
+    <br>
+
+    <div id="submit">
+      <input id="submitButton" name="submitButton" value="Submit Order" type="submit">
+      <input id="resetButton" name="reset" value="Clear Order Form" type="reset">
+    </div>
+
+  </form>
+
+
+</body>
+</html>

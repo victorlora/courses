@@ -1,0 +1,94 @@
+/*
+    Account: csi345_13
+    File: ~/www/lab4/lab4.css
+    Honor Code: We pledge the AIC: Victor A. Lora; William Shiel; Jeff Remley
+*/ 
+
+body {
+    font-family: sans-serif;
+}
+
+img {
+		float: left;
+		margin-right: 30px;
+}
+
+#topbanner {
+    background-color: #1E3C3C;
+		color: #FFFFFF;
+		margin: 0px;
+		padding: 20px;
+}
+
+#leftnavbar {
+    background-color: #633232;
+		float: none;
+		width: 20%;
+		padding: 10px;
+		display: table-cell;
+}
+
+#advertisement {
+    background-color: #858585;
+		float: none;
+		width: 20%;
+		padding: 20px;
+		display: table-cell;
+}
+
+#content {
+    background-color: #FFFFFF;
+		float: none;
+		width: 50%;
+		background-image: url("pattern.png");
+		display: table-cell;
+		padding: 20px;
+}
+
+#footer {
+    background-color: #4D5D2E;
+		clear: both;
+		color: #FFFFFF;
+		text-align: center;
+		padding: 20px;
+}
+
+#navBarHeader {
+    display: none;
+}
+
+.adBoxes {
+    background-color: #5C5C5C;
+		color: #FFFFFF;
+		text-align: center;
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		margin-bottom: 20px;
+}
+
+.navbaritem {
+	  width: 100%;
+}
+
+.navbaritem a {
+    text-decoration: none;
+}
+
+.navbaritem li {
+	 background-color: #CCCCCC;
+	 border-left: 15px solid #5C5C5C;
+	 margin-top: 10px;
+	 margin-left: -35px;
+	 list-style-type: none;
+	 padding: 5px;
+	 width: 80%;
+}
+
+#wrapper {
+    overflow: hidden;
+		margin: 0px;
+		display: table;
+		width: 100%;
+}

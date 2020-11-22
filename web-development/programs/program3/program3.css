@@ -1,0 +1,60 @@
+/* mathcs Account: csi345_13
+ * File: ~/www/programs/program3.css
+ * I pledge the AIC: Victor A. Lora
+ * */
+
+caption {
+    color: #800000;
+    font-weight: bold;
+}
+
+fieldset {
+    border: 2px solid #800000;
+}
+
+form {
+    width: 30em;
+}
+
+legend {
+    color: #800000;
+    font-weight: bold;
+}
+
+table {
+    border-collapse: collapse;
+    width: 30em;
+}
+
+td, th {
+    border: 1px solid black;
+    text-align: center;
+}
+
+th {
+    background-color: #F08080;
+}
+
+.formInputs {
+    padding-right: 30px;
+    text-align: right;
+}
+
+.required {
+    color: red;
+}
+
+#errorMessage {
+    background-color: #F08080;
+    width: 30em;
+}
+
+#month, #day, #year {
+    width: 35px;
+}
+
+#button-holder {
+    text-align: center;
+}
+   
+

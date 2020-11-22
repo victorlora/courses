@@ -1,0 +1,69 @@
+/*
+    Account: csi345_13
+    File: ~/www/lab3/lab3.css
+    Honor Code: We pledge the AIC: Victor A. Lora; Nikolajs Veidis;
+*/ 
+
+body { 
+		 background-color: #CCCC33;
+		 color: #800080;
+		 font-family: Garamond, 'Times New Roman', serif;
+}
+
+table {
+			background-color: #E4E495;
+			color: #202077;
+			border-color: #202077;
+			border: 2px solid #202077;
+			border-collapse: collapse;
+			width: 60%;
+}
+
+h1, h2, th, caption {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+
+}
+
+td {
+	 border-bottom: 2px solid #202077;
+	 padding-top: 10px;
+	 padding-bottom: 10px;
+	 padding-left: 20px;
+	 padding-right: 20px;
+}
+
+th {
+	 background-color: #B9B931;
+	 border-bottom: 2px solid #202077;
+	 padding-top: 10px;
+	 padding-bottom: 10px;
+	 padding-left: 20px;
+	 padding-right: 20px;
+}
+
+address {
+   border-top: 2px solid #202077;
+	 margin-top: 50px;
+}
+
+#navbar {
+   display: none;
+}
+
+.navbaritem a {
+	 text-decoration: none;
+}
+
+.navbaritem li {
+	 background-color: #E4E495;
+	 border-right: 15px solid #202077;
+	 padding-top: 5px;
+	 padding-bottom: 5px;
+	 padding-left: 15px;
+	 padding-right: 15px;
+	 display: inline;
+}
+
+.navbaritem ul {
+	 padding-left: 0px;
+}

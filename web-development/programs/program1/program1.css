@@ -1,0 +1,96 @@
+/*
+mathcs Account: csi345_13
+File: ~/www/programs/program1/program.html
+I pledge the AIC: Victor A. Lora
+*/
+
+body {
+   background-color: #FFCC00;
+	font-family: Georgia, Garamond, sans-serif;
+}
+
+h1, h2, caption {
+   background-color: #F0F0F0;
+   color: #A5A400;
+   font-family: "Century Gothic", "Futura", "Verdana", sans-serif;
+   text-align: center;
+}
+
+table {
+   background-color: #CC9933;
+   margin-top: 20px;
+}
+
+table caption {
+   font-weight: bold;
+}
+
+table th {
+   background-color: #003366;
+   font-family: "Century Gothic", "Futura", "Verdana", sans-serif;
+}
+
+table, th, td {
+   color: #FFFFFF;
+   border: 2px solid #FFFFFF;
+   border-collapse: collapse;
+   padding: 5px;
+}
+
+ul {
+   list-style-type: square;
+}
+
+a:hover {
+	color: white;
+}
+
+#navbar {
+	margin-top: 20px;
+}
+
+.navbaritem a {
+   text-decoration: none;
+}
+
+.navbaritem li {
+   background-color: #E4E495;
+   border-right: 15px solid #202077;
+   display: inline;
+   padding-bottom: 5px;
+   padding-left: 15px;
+   padding-right: 15px;
+   padding-top: 5px;
+}
+
+/* Extra Features */
+body {
+   background-image: url(background.png);
+}
+
+h1, h2 {
+   letter-spacing: 5px;
+}
+
+ul {
+   list-style-type: circle;
+}
+
+   /* Home Page */
+   #grid {
+      display: block;
+      height: 75%;
+      margin: 0px auto;
+      padding: 10px;
+      width: 600px;
+   }
+
+   #grid img:hover {
+      transform: scale(1.1);
+      transition: .3s ease-in-out;
+   }
+
+   #grid00, #grid10, #grid01, #grid11 {
+      float: left;
+      padding: 5px;
+   }
