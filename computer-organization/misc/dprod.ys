@@ -1,0 +1,106 @@
+# Victor A. Lora
+# ID: 00-2291432
+
+# Execution begins at address 0
+	.pos 0
+init:
+	irmovl Stack, %esp	# Set up Stack pointer
+	irmovl Stack, %ebp	# Set up base pointer
+	call Main			# Execute main program
+	halt
+
+	.align 4
+#Array a (5 elements)
+a:
+	.long 2
+	.long 4
+	.long 5
+	.long 1
+	.long 0
+
+#Array b
+b:
+	.long 3
+	.long 1
+	.long 2
+	.long 0
+	.long 6
+
+Main:
+	irmovl $5, %eax		# length of arrays
+	pushl %eax		# Push length of array
+	
+	irmovl b, %edx		# put address of array 'a' in edx
+	pushl %edx		# Push address of array
+
+	irmovl a, %edx		# put address of array 'b' in edx
+	pushl %edx		# Push address of array
+
+	call dprod		# dprod(a,b,5)
+
+	irmovl $12, %edx	# Clean up the stack
+	addl %edx, %esp
+	halt
+
+dprod:	
+	pushl %ebp
+    rrmovl %esp, %ebp
+
+	xorl %edx, %edx			# edx = 0
+	xorl %eax, %eax			# eax = 0
+	mrmovl 16(%ebp), %ecx	# Counter
+	mrmovl 12(%ebp), %edi	# edi = b
+	mrmovl 8(%ebp), %esi	# esi = a
+		
+Loop1:		
+	mrmovl (%edi), %ebx		# ebx = *b
+	pushl %ebx				# pushes contents of b onto stack
+	mrmovl (%esi), %ebx		# ebx = *a
+	pushl %ebx				# pushes contents of a onto stack
+	call Mult				# Mult(a,b)
+	
+	addl %eax, %edx			# edx += eax
+	
+	irmovl $4, %ebx			# ebx  = 4
+	addl %ebx, %edi			# edi += 4
+	addl %ebx, %esi			# esi += 4
+	
+	irmovl $-1, %ebx		# ebx  = -1
+	addl %ebx, %ecx			# Counter --
+	jne Loop1
+
+	rrmovl %edx, %eax
+	rrmovl %ebp, %esp
+	popl %ebp
+	ret
+
+Mult:   
+	pushl %ebp
+    rrmovl %esp, %ebp
+
+	pushl %ecx				# store ecx and edx on Stack
+	pushl %edx
+
+    mrmovl 12(%ebp), %ebx   # moves second param to %ebx
+
+    mrmovl 8(%ebp), %ecx    # Counter
+    irmovl $0, %eax         # starts %eax at 0
+    andl %ecx, %ecx         # compares ecx to ecx to check for 0
+    je End                  # jmps if the first param (Counter) is 0
+
+Loop2:   
+	addl %ebx, %eax         # Adds %esi to %edi
+    irmovl $-1, %edx        # assigns -1 to %edx
+    addl %edx, %ecx         # Count --
+    jne Loop2               # jmps if Counter != 0
+
+End:    
+	popl %edx				# restore ecx and edx
+	popl %ecx
+
+	rrmovl %ebp, %esp       # re-assigns the stack pointer
+    popl %ebp               # pops %ebp
+    ret
+
+	.pos 0x400
+Stack:	# The stack starts at 0x400	

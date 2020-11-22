@@ -1,0 +1,46 @@
+                      | # Execution begins at address 0
+                      | 
+  0x000:              | init:
+  0x000: 30f400040000 | 	irmovl Stack, %esp	# Set up Stack pointer
+  0x006: 30f500040000 | 	irmovl Stack, %ebp	# Set up base pointer
+  0x00c: 8012000000   | 	call Main		# call to Main
+  0x011: 00           | 	halt
+                      | 
+  0x012:              | Main:
+  0x012: 30f00c000000 | 	irmovl $12, %eax	# second number passed to Mult
+  0x018: a00f         | 	pushl %eax		# Push number
+                      | 
+  0x01a: 30f005000000 | 	irmovl $5, %eax		# first number passed to Mult
+  0x020: a00f         | 	pushl %eax		# Push number
+                      | 	
+  0x022: 8030000000   | 	call Mult		# Call multiply subroutine
+                      | 				# answer is in eax
+                      | 	
+  0x027: 30f208000000 | 	irmovl $8, %edx		# Clean up the stack
+  0x02d: 6024         | 	addl %edx, %esp
+  0x02f: 90           | 	ret
+                      | 
+  0x030:              | Mult:	
+  0x030: a05f         | 	pushl %ebp
+  0x032: 2045         | 	rrmovl %esp, %ebp
+                      | 
+  0x034: 50350c000000 | 	mrmovl 12(%ebp), %ebx	# moves second param to %ebx
+                      | 	
+  0x03a: 501508000000 | 	mrmovl 8(%ebp), %ecx	# Counter
+  0x040: 30f000000000 | 	irmovl $0, %eax		# starts eax at 0
+  0x046: 6211         | 	andl %ecx, %ecx		# adds %edx to Counter and compares
+  0x048: 735c000000   | 	je End			# jmps if the first param (Counter) is 0
+                      | 	
+  0x04d:              | Loop:	
+  0x04d: 6030         | 	addl %ebx, %eax		# Adds %esi to %edi
+  0x04f: 30f2ffffffff | 	irmovl $-1, %edx	# assigns -1 to %edx
+  0x055: 6021         | 	addl %edx, %ecx		# Count --
+  0x057: 744d000000   | 	jne Loop		# jmps if Counter != 0
+                      | 	
+  0x05c:              | End:	
+  0x05c: 2054         | 	rrmovl %ebp, %esp	# re-assigns the stack pointer
+  0x05e: b05f         | 	popl %ebp		# pops %ebp
+  0x060: 90           | 	ret			
+                      | 
+  0x400:              | 	.pos 0x400
+  0x400:              | Stack: # The stack Starts at 0x400

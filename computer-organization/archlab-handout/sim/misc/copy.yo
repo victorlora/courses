@@ -1,0 +1,71 @@
+                      | # Victor A. Lora
+                      | # ID: 00-2291432
+                      | 
+                      | # Execution begins at address 0
+  0x000:              |         .pos 0                  # sets starting address
+  0x000:              | init:
+  0x000: 30f400040000 |         irmovl Stack, %esp      # Set up Stack pointer
+  0x006: 30f500040000 |         irmovl Stack, %ebp      # Set up base pointer
+  0x00c: 802c000000   |         call Main               # Execute main program
+  0x011: 00           |         halt
+                      | 
+  0x014:              | .align 4
+                      | # Source block (3 elements)
+  0x014:              | src:
+  0x014: 0a000000     |         .long 0x00a
+  0x018: b0000000     |         .long 0x0b0
+  0x01c: 000c0000     | 	.long 0xc00
+                      | 
+                      | # Destination block (3 elements)
+  0x020:              | dest:
+  0x020: 11010000     | 	.long 0x111
+  0x024: 22020000     | 	.long 0x222
+  0x028: 33030000     | 	.long 0x333
+                      | 
+  0x02c:              | Main:
+  0x02c: 30f303000000 |         irmovl $3, %ebx		# ebx = len
+  0x032: a03f         |         pushl %ebx              # push ebx onto the stack
+  0x034: 30f314000000 | 	irmovl src, %ebx
+  0x03a: a03f         | 	pushl %ebx
+  0x03c: 30f320000000 | 	irmovl dest, %ebx
+  0x042: a03f         | 	pushl %ebx
+  0x044: 804c000000   |         call copy_block         # Execute copy_block
+  0x049: b03f         |         popl %ebx               # Clean up stack
+  0x04b: 90           |         ret
+                      | 
+  0x04c:              | copy_block:
+  0x04c: a05f         |         pushl %ebp              # stack frame setup
+  0x04e: 2045         |         rrmovl %esp, %ebp       #
+                      | 
+  0x050: a03f         |         pushl %ebx              # store register values on stack
+                      | 
+  0x052: 6377         |         xorl %edi, %edi         # edi = 0
+                      | 
+  0x054: 503510000000 |         mrmovl 16(%ebp), %ebx   # ebx = lens
+  0x05a: 50150c000000 | 	mrmovl 12(%ebp), %ecx	# ecx = src
+  0x060: 502508000000 | 	mrmovl 8(%ebp), %edx	# edx = dest
+                      | 
+  0x066: 6233         | 	andl %ebx, %ebx		# checks len=0?
+  0x068: 7394000000   | 	je End
+                      | 
+  0x06d: 500100000000 | Loop:   mrmovl (%ecx), %eax	# eax = *src
+  0x073: 400200000000 | 	rmmovl %eax, (%edx)	# *dest = eax
+  0x079: 6307         | 	xorl %eax, %edi		# result ^= eax
+  0x07b: 30f604000000 | 	irmovl $4, %esi		# esi =  4
+  0x081: 6061         | 	addl %esi, %ecx		# ecx += 4
+  0x083: 6062         | 	addl %esi, %edx		# edx += 4
+  0x085: 30f601000000 | 	irmovl $1, %esi		# esi = 1
+  0x08b: 6163         | 	subl %esi, %ebx		# len--
+  0x08d: 6233         | 	andl %ebx, %ebx		# check for len>0?
+  0x08f: 766d000000   | 	jg Loop
+                      |       
+  0x094:              | End:
+  0x094: 2070         |         rrmovl %edi, %eax	# move result -> eax
+  0x096: b03f         |         popl %ebx		# restore ebx
+  0x098: 2054         |         rrmovl %ebp, %esp	# re-assigns the stack
+  0x09a: b05f         |         popl %ebp		# pops ebp
+  0x09c: 90           |         ret
+                      | 
+  0x400:              |         .pos 0x400
+  0x400:              | Stack:  # The stack starts at 0x400
+                      | 

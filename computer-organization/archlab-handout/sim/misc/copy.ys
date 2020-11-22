@@ -1,0 +1,76 @@
+# Victor Lora
+# ID: 00-2291432
+#
+# Ron Gerschel
+# ID: 00-2292229
+#
+#
+#
+# Execution begins at address 0
+        .pos 0                  # sets starting address
+init:
+        irmovl Stack, %esp      # Set up Stack pointer
+        irmovl Stack, %ebp      # Set up base pointer
+        call Main               # Execute main program
+        halt
+
+.align 4
+# Source block (3 elements)
+src:
+        .long 0x00a
+        .long 0x0b0
+	.long 0xc00
+
+# Destination block (3 elements)
+dest:
+	.long 0x111
+	.long 0x222
+	.long 0x333
+
+Main:
+        irmovl $3, %ebx		# ebx = len
+        pushl %ebx              # push ebx onto the stack
+	irmovl src, %ebx
+	pushl %ebx
+	irmovl dest, %ebx
+	pushl %ebx
+        call copy_block         # Execute copy_block
+        popl %ebx               # Clean up stack
+        ret
+
+copy_block:
+        pushl %ebp              # stack frame setup
+        rrmovl %esp, %ebp       #
+
+        pushl %ebx              # store register values on stack
+
+        xorl %edi, %edi         # edi = 0
+
+        mrmovl 16(%ebp), %ebx   # ebx = lens
+	mrmovl 12(%ebp), %ecx	# ecx = src
+	mrmovl 8(%ebp), %edx	# edx = dest
+
+	andl %ebx, %ebx		# checks len=0?
+	je End
+
+Loop:   mrmovl (%ecx), %eax	# eax = *src
+	rmmovl %eax, (%edx)	# *dest = eax
+	xorl %eax, %edi		# result ^= eax
+	irmovl $4, %esi		# esi =  4
+	addl %esi, %ecx		# ecx += 4
+	addl %esi, %edx		# edx += 4
+	irmovl $1, %esi		# esi = 1
+	subl %esi, %ebx		# len--
+	andl %ebx, %ebx		# check for len>0?
+	jg Loop
+      
+End:
+        rrmovl %edi, %eax	# move result -> eax
+        popl %ebx		# restore ebx
+        rrmovl %ebp, %esp	# re-assigns the stack
+        popl %ebp		# pops ebp
+        ret
+
+        .pos 0x400
+Stack:  # The stack starts at 0x400
+

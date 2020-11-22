@@ -1,0 +1,102 @@
+  0x000:              | 	.pos 0
+  0x000:              | init:
+  0x000: 30f400040000 | 	irmovl Stack, %esp	# Set up Stack pointer
+  0x006: 30f500040000 | 	irmovl Stack, %ebp	# Set up base pointer
+  0x00c: 803c000000   | 	call Main		# Execute main program
+  0x011: 00           | 	halt
+                      | 
+  0x014:              | 	.align 4
+                      | #Array a (5 elements)
+  0x014:              | a:
+  0x014: 02000000     | 	.long 2
+  0x018: 04000000     | 	.long 4
+  0x01c: 05000000     | 	.long 5
+  0x020: 01000000     | 	.long 1
+  0x024: 00000000     | 	.long 0
+                      | 
+                      | #Array b
+  0x028:              | b:
+  0x028: 03000000     | 	.long 3
+  0x02c: 01000000     | 	.long 1
+  0x030: 02000000     | 	.long 2
+  0x034: 00000000     | 	.long 0
+  0x038: 06000000     | 	.long 6
+                      | 
+  0x03c:              | Main:
+  0x03c: 30f005000000 | 	irmovl $5, %eax		# length of arrays
+  0x042: a00f         | 	pushl %eax		# Push length of array
+                      | 	
+  0x044: 30f228000000 | 	irmovl b, %edx		# put address of array 'a' in edx
+  0x04a: a02f         | 	pushl %edx		# Push address of array
+                      | 
+  0x04c: 30f214000000 | 	irmovl a, %edx		# put address of array 'b' in edx
+  0x052: a02f         | 	pushl %edx		# Push address of array
+                      | 
+  0x054: 8062000000   | 	call dprod		# dprod(a,b,5)
+                      | 
+  0x059: 30f20c000000 | 	irmovl $12, %edx	# Clean up the stack
+  0x05f: 6024         | 	addl %edx, %esp
+  0x061: 00           | 	halt
+                      | 
+  0x062:              | dprod:	
+  0x062: a05f         | 	pushl %ebp
+  0x064: 2045         |         rrmovl %esp, %ebp
+                      | 
+  0x066: 6322         | 	xorl %edx, %edx		# edx = 0
+  0x068: 6300         | 	xorl %eax, %eax		# eax = 0
+  0x06a: 501510000000 | 	mrmovl 16(%ebp), %ecx	# Counter
+  0x070: 50750c000000 | 	mrmovl 12(%ebp), %edi	# edi = b
+  0x076: 506508000000 | 	mrmovl 8(%ebp), %esi	# esi = a
+                      | 		
+  0x07c:              | Loop1:		
+  0x07c: 503700000000 | 	mrmovl (%edi), %ebx	# ebx = *b
+  0x082: a03f         | 	pushl %ebx		# pushes contents of b onto stack
+  0x084: 503600000000 | 	mrmovl (%esi), %ebx	# ebx = *a
+  0x08a: a03f         | 	pushl %ebx		# pushes contents of a onto stack
+  0x08c: 80b1000000   | 	call Mult		# Mult(a,b)
+                      | 	
+  0x091: 6002         | 	addl %eax, %edx		# edx += eax
+                      | 	
+  0x093: 30f304000000 | 	irmovl $4, %ebx		# ebx  = 4
+  0x099: 6037         | 	addl %ebx, %edi		# edi += 4
+  0x09b: 6036         | 	addl %ebx, %esi		# esi += 4
+                      | 	
+  0x09d: 30f3ffffffff | 	irmovl $-1, %ebx	# ebx  = -1
+  0x0a3: 6031         | 	addl %ebx, %ecx		# Counter --
+  0x0a5: 747c000000   | 	jne Loop1
+                      | 
+  0x0aa: 2020         | 	rrmovl %edx, %eax
+  0x0ac: 2054         | 	rrmovl %ebp, %esp
+  0x0ae: b05f         | 	popl %ebp
+  0x0b0: 90           | 	ret
+                      | 
+  0x0b1:              | Mult:   
+  0x0b1: a05f         | 	pushl %ebp
+  0x0b3: 2045         |         rrmovl %esp, %ebp
+                      | 
+  0x0b5: a01f         | 	pushl %ecx		# store ecx and edx on Stack
+  0x0b7: a02f         | 	pushl %edx
+                      | 
+  0x0b9: 50350c000000 |         mrmovl 12(%ebp), %ebx   # moves second param to %ebx
+                      | 
+  0x0bf: 501508000000 |         mrmovl 8(%ebp), %ecx    # Counter
+  0x0c5: 30f000000000 |         irmovl $0, %eax         # starts %eax at 0
+  0x0cb: 6211         |         andl %ecx, %ecx         # compares ecx to ecx to check for 0
+  0x0cd: 73e1000000   |         je End                  # jmps if the first param (Counter) is 0
+                      | 
+  0x0d2:              | Loop2:   
+  0x0d2: 6030         | 	addl %ebx, %eax         # Adds %esi to %edi
+  0x0d4: 30f2ffffffff |         irmovl $-1, %edx        # assigns -1 to %edx
+  0x0da: 6021         |         addl %edx, %ecx         # Count --
+  0x0dc: 74d2000000   |         jne Loop2               # jmps if Counter != 0
+                      | 
+  0x0e1:              | End:    
+  0x0e1: b02f         | 	popl %edx		# restore ecx and edx
+  0x0e3: b01f         | 	popl %ecx
+                      | 
+  0x0e5: 2054         | 	rrmovl %ebp, %esp       # re-assigns the stack pointer
+  0x0e7: b05f         |         popl %ebp               # pops %ebp
+  0x0e9: 90           |         ret
+                      | 
+  0x400:              | 	.pos 0x400
+  0x400:              | Stack:	# The stack starts at 0x400	

@@ -1,0 +1,54 @@
+                      | # Victor Lora
+                      | # ID: 00-2291432
+                      | 
+                      | # Execution begins at address 0
+  0x000:              | 	.pos 0			# sets starting address
+  0x000:              | init:
+  0x000: 30f400040000 | 	irmovl Stack, %esp	# Set up Stack pointer
+  0x006: 30f500040000 | 	irmovl Stack, %ebp	# Set up base pointer
+  0x00c: 802c000000   | 	call Main		# Execute main program
+  0x011: 00           | 	halt
+                      | 
+                      | # Sample linked list
+  0x014:              | .align 4
+  0x014:              | ele1:
+  0x014: 0a000000     | 	.long 0x00a
+  0x018: 1c000000     | 	.long ele2
+  0x01c:              | ele2:
+  0x01c: b0000000     | 	.long 0x0b0
+  0x020: 24000000     | 	.long ele3
+  0x024:              | ele3:
+  0x024: 000c0000     | 	.long 0xc00
+  0x028: 00000000     | 	.long 0
+                      | 
+  0x02c:              | Main:
+  0x02c: 30f314000000 | 	irmovl ele1, %ebx	# Move linked list head to ebx
+  0x032: a03f         | 	pushl %ebx		# push ebx onto the stack
+  0x034: 803c000000   | 	call sum_list		# Execute sum_list
+  0x039: b03f         | 	popl %ebx		# Clean up stack
+  0x03b: 90           | 	ret
+                      | 
+  0x03c:              | sum_list:
+  0x03c: a05f         | 	pushl %ebp		# stack frame setup
+  0x03e: 2045         | 	rrmovl %esp, %ebp	#
+  0x040: a03f         | 	pushl %ebx		# store ebx on the stack
+  0x042: 30f000000000 | 	irmovl $0, %eax		# eax = 0
+                      | 
+  0x048: 506508000000 | 	mrmovl 8(%ebp), %esi	# esi = ele1
+  0x04e: 503600000000 | 	mrmovl (%esi), %ebx	# ebx = *esi
+                      | 
+  0x054: 6030         | Loop:	addl %ebx, %eax		# eax += ebx
+  0x056: 30f204000000 | 	irmovl $4, %edx		# edx =  4
+  0x05c: 6026         | 	addl %edx, %esi		# esi += 4
+  0x05e: 506600000000 | 	mrmovl (%esi), %esi	# esi = new address		
+  0x064: 503600000000 | 	mrmovl (%esi), %ebx	# ebx = element in the next link
+  0x06a: 6266         | 	andl %esi, %esi		# check for 0
+  0x06c: 7454000000   | 	jne Loop
+                      | 	
+  0x071: b03f         | 	popl %ebx
+  0x073: 2054         | 	rrmovl %ebp, %esp
+  0x075: b05f         | 	popl %ebp
+  0x077: 90           | 	ret
+                      | 
+  0x400:              | 	.pos 0x400
+  0x400:              | Stack:	# The stack starts at 0x400	

@@ -1,0 +1,46 @@
+# Execution begins at address 0
+	.pos 0
+init:
+	irmovl Stack, %esp	# Set up Stack pointer
+	irmovl Stack, %ebp	# Set up base pointer
+	call Main		# call to Main
+	halt
+
+Main:
+	irmovl $12, %eax	# second number passed to Mult
+	pushl %eax		# Push number
+
+	irmovl $5, %eax		# first number passed to Mult
+	pushl %eax		# Push number
+	
+	call Mult		# Call multiply subroutine
+				# answer is in eax
+	
+	irmovl $8, %edx		# Clean up the stack
+	addl %edx, %esp
+	ret
+
+Mult:	
+	pushl %ebp
+	rrmovl %esp, %ebp
+
+	mrmovl 12(%ebp), %ebx	# moves second param to %ebx
+	
+	mrmovl 8(%ebp), %ecx	# Counter
+	irmovl $0, %eax		# starts eax at 0
+	andl %ecx, %ecx		# adds %edx to Counter and compares
+	je End			# jmps if the first param (Counter) is 0
+	
+Loop:	
+	addl %ebx, %eax		# Adds %esi to %edi
+	irmovl $-1, %edx	# assigns -1 to %edx
+	addl %edx, %ecx		# Count --
+	jne Loop		# jmps if Counter != 0
+	
+End:	
+	rrmovl %ebp, %esp	# re-assigns the stack pointer
+	popl %ebp		# pops %ebp
+	ret			
+
+	.pos 0x400
+Stack: # The stack Starts at 0x400

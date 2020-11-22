@@ -1,0 +1,58 @@
+# Victor Lora
+# ID: 00-2291432
+#
+# Ron Gerschel
+# ID: 00-2292229
+#
+#
+# Execution begins at address 0
+	.pos 0			# sets starting address
+init:
+	irmovl Stack, %esp	# Set up Stack pointer
+	irmovl Stack, %ebp	# Set up base pointer
+	call Main		# Execute main program
+	halt
+
+# Sample linked list
+.align 4
+ele1:
+	.long 0x00a
+	.long ele2
+ele2:
+	.long 0x0b0
+	.long ele3
+ele3:
+	.long 0xc00
+	.long 0
+
+Main:
+	irmovl ele1, %ebx	# Move linked list head to ebx
+	pushl %ebx		# push ebx onto the stack
+	call sum_list		# Execute sum_list
+	popl %ebx		# Clean up stack
+	ret
+
+sum_list:
+	pushl %ebp		# stack frame setup
+	rrmovl %esp, %ebp	#
+	pushl %ebx		# store ebx on the stack
+	irmovl $0, %eax		# eax = 0
+
+	mrmovl 8(%ebp), %esi	# esi = ele1
+	mrmovl (%esi), %ebx	# ebx = *esi
+
+Loop:	addl %ebx, %eax		# eax += ebx
+	irmovl $4, %edx		# edx =  4
+	addl %edx, %esi		# esi += 4
+	mrmovl (%esi), %esi	# esi = new address		
+	mrmovl (%esi), %ebx	# ebx = element in the next link
+	andl %esi, %esi		# check for 0
+	jne Loop
+	
+	popl %ebx
+	rrmovl %ebp, %esp
+	popl %ebp
+	ret
+
+	.pos 0x400
+Stack:	# The stack starts at 0x400	

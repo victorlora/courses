@@ -1,0 +1,148 @@
+#/* $begin ncopy-ys */
+##################################################################
+# ncopy.ys - Copy a src block of len ints to dst.
+# Return the number of positive ints (>0) contained in src.
+#
+# Include your name and ID here.
+#
+# Describe how and why you modified the baseline code.
+#
+##################################################################
+# Do not modify this portion
+# Function prologue.
+ncopy:	pushl %ebp		# Save old frame pointer
+	rrmovl %esp,%ebp	# Set up new frame pointer
+	pushl %esi		# Save callee-save regs
+	pushl %ebx
+	pushl %edi
+	mrmovl 8(%ebp),%ebx	# src
+	mrmovl 16(%ebp),%edx	# len
+	mrmovl 12(%ebp),%ecx	# dst
+
+##################################################################
+# You can modify this portion
+	# Loop header
+	xorl %eax,%eax		# count = 0;
+	andl %edx,%edx		# len <= 0?
+	jle Done		# if so, goto Done:
+	iaddl $-7, %edx		# 
+	jl Odd
+
+Pos1:	mrmovl (%ebx), %esi	# read val from src...
+	rmmovl %esi, (%ecx)	# ...and store it to dst
+	andl %esi, %esi		# val <= 0?
+	jle Pos2		# if so, goto Npos:
+	iaddl  $1, %eax		# count++
+
+Pos2:	mrmovl 4(%ebx), %edi
+	rmmovl %edi, 4(%ecx)
+	andl %edi, %edi
+	jle Pos3
+	iaddl $1, %eax
+
+Pos3:	mrmovl 8(%ebx), %esi
+	rmmovl %esi, 8(%ecx)
+	andl %esi, %esi
+	jle Pos4
+	iaddl $1, %eax
+
+Pos4:   mrmovl 12(%ebx), %edi
+        rmmovl %edi, 12(%ecx)
+        andl %edi, %edi
+        jle Pos5
+        iaddl $1, %eax
+
+Pos5:   mrmovl 16(%ebx), %esi
+        rmmovl %esi, 16(%ecx)
+        andl %esi, %esi
+        jle Pos6
+        iaddl $1, %eax
+
+Pos6:   mrmovl 20(%ebx), %edi
+        rmmovl %edi, 20(%ecx)
+        andl %edi, %edi
+        jle Pos7
+        iaddl $1, %eax
+
+Pos7:   mrmovl 24(%ebx), %esi
+        rmmovl %esi, 24(%ecx)
+        andl %esi, %esi
+        jle Npos
+        iaddl $1, %eax
+
+Npos:
+	iaddl $-7,%edx		# len--
+	iaddl  $28,%ebx		# src++
+	iaddl  $28, %ecx	# dst++
+	andl %edx,%edx		# len > 0?
+	jge Pos1		# if so, goto Loop:
+	
+Odd:	iaddl $7, %edx
+	
+Odd_1:
+	iaddl $-1, %edx
+	jl Done
+	mrmovl (%ebx), %esi
+	rmmovl %esi, (%ecx)
+	andl %esi, %esi
+	jle Odd_2
+	iaddl $1, %eax
+	
+Odd_2:
+	iaddl $-1, %edx
+	jl Done
+	mrmovl 4(%ebx), %edi
+	rmmovl %edi, 4(%ecx)
+	andl %edi, %edi
+	jle Odd_3
+	iaddl $1, %eax
+
+Odd_3:	
+	iaddl $-1, %edx
+	jl Done
+	mrmovl 8(%ebx), %esi
+	rmmovl %esi, 8(%ecx)
+	andl %esi, %esi
+	jle Odd_4
+	iaddl $1, %eax
+
+Odd_4:	
+        iaddl $-1, %edx
+        jl Done
+        mrmovl 12(%ebx), %edi
+        rmmovl %edi, 12(%ecx)
+        andl %edi, %edi
+        jle Odd_5
+        iaddl $1, %eax
+
+Odd_5:	
+        iaddl $-1, %edx
+        jl Done
+        mrmovl 16(%ebx), %esi
+        rmmovl %esi, 16(%ecx)
+        andl %esi, %esi
+        jle Odd_6
+        iaddl $1, %eax
+
+Odd_6:
+        iaddl $-1, %edx
+        jl Done
+        mrmovl 20(%ebx), %edi
+        rmmovl %edi, 20(%ecx)
+        andl %edi, %edi
+        jle Done
+        iaddl $1, %eax
+
+##################################################################
+# Do not modify the following section of code
+# Function epilogue.
+Done:
+	popl %edi               # Restore callee-save registers
+	popl %ebx
+	popl %esi
+	leave			# replaces rrmovl and popl
+	ret
+##################################################################
+# Keep the following label at the end of your function
+End:
+#/* $end ncopy-ys */
