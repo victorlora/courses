@@ -1,0 +1,36 @@
+HW05 - binary trees & search paths
+
+Please submit a DrRacket text file that contains the procedures described below. Your submission should be documented as described in the Scheme coding standard; insufficiently documented submissions will be returned ungraded. Be sure to include sample code (test cases) to demonstrate that each procedure works correctly.
+
+(path n bst)
+
+Define a procedure (path n bst), where bst is a binary search tree (BST) that contains the number n, which returns a list of lefts and rights showing how to reach the node with n. Return an empty list if n is at the root, or if n is not found. Each node in the BST is represented as a 3 element list, where the 1st element is the value, the 2nd element is the left child, and the 3rd element is the right child. A leaf node has a value, but both children are null. Remember that binary search trees are sorted, so that all left descendants are <= the node value, and all right descendents are >= the node value.
+
+> (path 17 '( 14 (7 () (12 () ())) (26 (20 (17 () ()) ()) (31 () ())))) 
+--> (right left left)
+Before you start coding the procedure, define a strong set of test cases to help you understand what the procedure should do and how well it works.
+
+bintree
+
+Define a set of procedures to implement a binary tree data type:
+
+(make-tree <val> <lchild> <rchild>)	- return a tree built from a value and two children (possibly null)
+(tree? <arg>)	- return #t if argument is a tree, #f otherwise
+(get-value <tree>)	- return value at root of tree
+(get-left <tree>)	- return left child of tree
+(get-right <tree>)	- return right child of tree
+You may choose how to implement the tree - as a 3-element list, as a vector, or another structure. (Your definitions should not use the ADT facilities in Ch 2.)
+
+
+; test code - should return 3
+; (value of right child of tree with root 2 and children 1 and 3)
+(get-value (get-right (make-tree 2 (make-tree 1 '() '())
+                                   (make-tree 3 '() '()) ) ))
+
+Before you start coding the procedure, define a strong set of test cases to help you understand what the procedure should do and how well it works.
+
+bintree_path
+
+Define a procedure (path n bst), where bst is a binary search tree (BST) that is created using your set of bintree procedures and contains the number n. The procedure should return a list of lefts and rights showing how to reach the node with n. Return an empty list if n is at the root, or if n is not found. Thus, this procedure implements the same logic as the first procedure above, but using the bintree data type.
+
+Before you start coding the procedure, define a strong set of test cases to help you understand what the procedure should do and how well it works.

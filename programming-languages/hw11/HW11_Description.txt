@@ -1,0 +1,38 @@
+HW11 - Description
+
+Extend interp3.9.scm (available from Moodle) to include the following capabilities:
+
+(Exercise 3.63, pg 121) do-while, which is like while except that the test is performed after the execution of the body.
+(Exercise 3.64, pg 122) allow variables in block statements to be initialized.
+Your submission should be documented as described in the Scheme coding standard; insufficiently documented submissions will be returned ungraded. Be sure to include sample code to demonstrate that everything works correctly.
+
+Examples
+
+; do-while containing compound-stmt
+var x; { x = 2; do { x = sub1(x); print(x) } while x }
+
+; block variable initialization, followed by compound-stmt
+var x = 3, y = 4; { x = 5; print(+(x,y))}                              grammar)))
+; scan & parse & eval
+(define scan&parse&eval
+  (lambda (s) (eval-program (scan&parse s))) )
+
+; interpreter loop
+(define read-eval-print
+  (sllgen:make-rep-loop "--> " eval-program
+                        (sllgen:make-stream-parser scanner-spec 
+                                                   grammar)))
+
+; ------------------------------------------------------------
+; testing - use (scan), (scan&parse), (read-dump), (read-eval-print) 
+
+(define test-3.1a "add1(2)")
+; ignores extra parameters
+(define test-3.1b "add1(2,3)")
+(define test-3.1c "+(3,4,5)")
+; more tests
+(define test-3.1d "+(add1(2),-(6,4))")
+(define test-3.1e "*(2,+(3,sub1(4)))")
+;(scan test-3.1a)
+;(scan&parse&eval test-3.1b)
+(read-eval-print)

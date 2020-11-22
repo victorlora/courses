@@ -1,0 +1,30 @@
+HW03 - merge, carcdr, ifcond
+
+Please submit a Scheme text file containing the procedures described below. Your submission should be documented as described in the Scheme coding standard; insufficiently documented submissions will be returned ungraded. Be sure to include SchemeUnit code to demonstrate that each procedure works correctly.
+
+merge
+
+A procedure (merge lon1 lon2) where lon1 and lon2 are lists of numbers sorted in ascending order, that returns a sorted list of all of the numbers in lon1 and lon2.
+
+TEST CODE	SHOULD RETURN
+(merge '(3 5) '())	'(3 5)
+(merge '() '(4 8))	'(4 8)
+(merge '(3 5 12 23) '(4 8 9 18))	'(3 4 5 8 9 12 18 23)
+car&cdr
+
+A procedure (car&cdr s slst errval) that returns the code for a procedure that takes a list with the same structure as slst and returns the value in the same position as the leftmost occurrence of s in slst . If s does not occur in slst then errval is returned.
+
+TEST CODE	SHOULD RETURN
+(car&cdr 'a '(a b c) 'fail)	(lambda (lst) (car lst))
+(car&cdr 'c '(a b c) 'fail)	(lambda (lst) (car (cdr (cdr lst))))
+(car&cdr 'c '(a b) 'fail)	'fail
+(car&cdr 'dog '(cat lion (fish dog) pig) 'fail)	(lambda (lst) (car (cdr (car (cdr (cdr lst))))))
+ifcond
+
+A procedure if->cond that takes an if expression and returns the corresponding cond expression.
+
+TEST CODE	SHOULD RETURN
+(if->cond '(if a b))	(cond (else (if a b)))
+(if->cond '(if a b c))	(cond (a b) (else c))
+(if->cond '(if a b (if c d e)))	(cond (a b) (c d) (else e))
+(if->cond '(if a (if b c d) (if e f g)))	(cond (a (if b c d)) (e f) (else g))

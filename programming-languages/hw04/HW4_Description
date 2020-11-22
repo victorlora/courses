@@ -1,0 +1,52 @@
+HW04 - lambda calculus
+
+Please submit text files that contain the procedures described below. Your submission should be documented as described in the Scheme coding standard; insufficiently documented submissions will be returned ungraded. Be sure to include sample code to demonstrate that each procedure works correctly.
+
+hw06_combinators.scm
+
+Manually evaluate the following lambda combinator expressions to show that you understand how the lambda calculus works. Use the DrScheme editor to balance parentheses, and format the lines so that elements line up.
+
+; A. evaluate boolean logic expression
+(or F (and T (not F))
+
+; B. compute 2+1 using Church numerals
+( increment 2 )
+( (L ( n ) (L ( f ) (L ( x ) (f ((n f) x))))) (L ( f ) (L ( x ) (f (f x)))) ) 
+hw06_eta.scm
+
+Define a procedure (eta-conv expr) where expr is a lambda expression, that returns the result of applying eta-conversion to remove unnecessary lambda expressions.
+
+; test code - should return a
+(eta-conv '(lambda ( x ) (a x)))
+
+; test code - should return (lambda ( x ) (x a))
+; since it is not of the right form
+(eta-conv '(lambda ( x ) (x a)))
+
+; test code - should return (x z)
+(eta-conv '(x z)) 
+hw06_alpha.scm
+
+Define a procedure (alpha-conv x y expr) where x and y are symbols and expr is a lambda expression, that returns the result of applying alpha-conversion to rename x to y in expr.
+
+; test code - should return (x z)
+; since alpha-conv only affects lambda expressions
+(alpha-conv 'x 'y '(x z))
+
+; test code - should return ((lambda ( x ) (+ x 5)) 2)
+; since alpha-conv only affect lambda expressions, not applications
+(alpha-conv 'x 'y '((lambda ( x ) (+ x 5)) 2)
+
+; test code - should return (lambda ( y ) (y z y))
+(alpha-conv 'x 'y '(lambda ( x ) (x z x)))
+
+; test code - should return (lambda ( y ) (y z y))
+; since x is not the formal parameter
+(alpha-conv 'x 'y '(lambda ( y ) (y z y)))
+
+; test code - should return (lambda ( y ) (+ y ((lambda (x) (* 2 x)) 7)))
+; since the inner lambda creates a HOLE
+(alpha-conv 'x 'y '(lambda ( x ) (+ x ((lambda (x) (* 2 x)) 7))))
+
+; test code - should return (lambda ( y ) (+ y ((lambda (z) (* 2 y z)) 7)))
+(alpha-conv 'x 'y '(lambda ( x ) (+ x ((lambda (z) (* 2 x z)) 7))))

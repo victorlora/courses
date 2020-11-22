@@ -1,0 +1,10 @@
+HW07 - environments
+
+Please submit a text file (or a zip file containing text files) that contains the code described below. Your submission should be documented as described in the Scheme coding standard; insufficiently documented submissions will be returned ungraded. Be sure to include sample code to demonstrate that each procedure works correctly.
+
+environments.scm
+
+Rewrite the 3 environment ADT implementations (procedural, datatype, and ribcage) so that instead of using a list of symbols and a list of values, they use a list of symbol-value pairs. So the environment might be created by code like either of the following lines (you can choose which one).
+
+(define env1 (extend-env '(c 3) '(d 4) (extend-env '(a 1) '(b 2) (empty-env))))
+(define env1 (extend-env '((c 3) (d 4)) (extend-env '((a 1) (b 2)) (empty-env))))

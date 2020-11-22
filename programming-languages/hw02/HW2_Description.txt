@@ -1,0 +1,44 @@
+HW02 - invert, index, count, compose
+
+Please submit a Scheme text file that contains the procedures described below. Your submission should be documented as described in the Scheme coding standard; insufficiently documented submissions will be returned ungraded. Be sure to include sample code to demonstrate that each procedure works correctly.
+
+invert
+
+A procedure that takes a list of 2-lists (lists of length 2), and returns a list with each 2-list reversed. For example:
+
+> (invert '((a b) (c d) (e f))) 
+((b a) (d c) (f e)) 
+The procedure should degrade gracefully with unexpected parameters.
+
+vector-index
+
+A procedure that returns the zero-based index of the first occurence of a parameter in a vector, or -1 if there is no occurrence. For example:
+
+> (vector-index 'a '#(a b c d))
+0
+> (vector-index 'c '#(a b c d))
+2
+> (vector-index 'e '#(a b c d))
+-1 
+The procedure should degrade gracefully with unexpected parameters.
+
+count-occurrences
+
+A procedure that returns the number of occurrences of a parameter in a list. For example:
+
+> (count-occurrences 'x '((f x) y (((x z) x))))
+3
+> (count-occurrences 'w '((f x) y (((x z) x))))
+0 
+compose23
+
+A procedure that takes 1, 2, or 3 procedures and composes them, as specified by the equation:
+(compose f g h) = (compose f (compose g h))
+For example:
+
+> ((compose23 car) '(1 2 3 4 5))
+1
+> ((compose23 car cdr) '(1 2 3 4 5))
+2
+> ((compose23 car cdr cdr) '(1 2 3 4 5))
+3

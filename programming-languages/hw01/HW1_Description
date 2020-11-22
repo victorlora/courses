@@ -1,0 +1,42 @@
+HW01 - area, between, shorter, righttri
+
+Please submit a Scheme text file that contains the procedures described below. Your submission should be documented as described in the Scheme coding standard; insufficiently documented submissions will be returned ungraded. 
+
+Be sure to include sample code to demonstrate that each procedure works correctly.
+
+circlearea
+
+A procedure that takes the radius of a circle and returns its area. For example:
+
+> (circlearea 3) 
+28.274 
+between?
+
+A procedure that takes three arguments (a, x, & y) and returns true if a is between x and y. For example:
+
+> (between? 4 2 7) 
+#t 
+> (between? 4 1 4) 
+#f
+> (between? 4 7 2)
+#t
+shorter
+
+A procedure that returns the shorter of two list arguments. For example:
+
+> (shorter '(a b) '(c d e)) 
+(a b) 
+> (shorter '(a b) '(c d)) 
+(a b) 
+> (shorter '(a b) '(c)) 
+(c) 
+Hint: the procedure length returns the length of its argument.
+
+righttri?
+
+A procedure that takes a list of three numbers and returns true if the square of the largest number equals the sum of the squares of the two smaller numbers. For example:
+
+> (righttri? '(2 4 3)) 
+#f 
+> (righttri? '(5 3 4)) 
+#t
