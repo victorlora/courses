@@ -1,0 +1,9 @@
+( a + b ) + c #
+( a + b ) * c #
+( a + b ) + c + d #
+( a * b + c ) * e + f #
+( a + ( b + ( c + ( d + a ) ) ) ) #
+( a * b + c * e + f * g ) * ( g + h ) #
+( a / ( b + c ) ) * d + c / e - ( f * g ) #
+a ^ b ^ c #
+( a ^ b ) ^ c #
