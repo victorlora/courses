@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>csi210_css.html</title>
+    <style>
+        body {
+            background-color: #444;
+            color: white;
+            font-family: "Courier New", Courier, Times, serif;
+            font-size: 15px;
+            margin: 0;
+            padding: 0;
+        }
+        h1#MainHeader {
+            color: white;
+            font-size: 2.75em;
+            font-weight: bold;
+            margin-top: 0;
+            padding: 0.5em 0 0 0.5em;
+            position: relative;
+            text-shadow: -4px 2px black;
+        }
+
+        /* start navbar styling */
+        nav {
+            background-color: #333;
+            margin-top: 0;
+            overflow: hidden;
+        }
+        nav ul{
+            border: 1px solid black;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            border-right: 1px solid black;
+            display: inline-block;
+            list-style-type: none;
+        }
+        nav > ul > li > a {
+            background-color:#333;
+            color: #aaa;
+            display: block;
+            line-height: 2em;
+            padding: 0.5em 1.5em;
+            text-decoration: none;
+        }
+        nav li > ul {
+            display: none;
+        }
+        nav li > ul li {
+            background-color:#333;
+            border: 1px solid black;
+            display: block;
+        }
+        nav li > ul li a {
+            color: #aaa;
+            display: block;
+            line-height: 2em;
+            padding: 0.5em 2em;
+            text-decoration: none;
+            width: 150px;
+        }
+        nav li:hover {
+            background-color: #666;
+        }
+        nav li:hover > ul {
+            display: block;
+            position: absolute;
+        }
+        nav li > ul > li ul {
+            display: none;
+            background-color: #888;
+        }
+        nav li > ul > li:hover > ul {
+            display: block;
+            margin-left: 99%;
+            margin-top: -3em;               
+            position: absolute;
+        }
+        /* end navbar */
+
+        ul {
+            line-height: 1.5em;
+        }
+        a {
+            color: white;
+        }
+        ul > li {
+            list-style-type: none;
+        }
+        div#prof_pic {
+            padding: 10px 10px 10px 10px;
+
+        }
+        img {
+            border: 0;
+        }
+        /* footer styling */
+        table {
+            margin: 0 auto;
+        }
+        footer {
+            margin-top: 95%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="MainHeader">Victor Lora</h1>
+
+
+    <!--NavBar-->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li class="sub"><a href="projects.html">Projects</a>
+                <ul>
+                    <li><a href="csi210_html.html">Project 1: HTML</a></li>
+                    <li><a href="csi210_css.html">Project 2: HTML & CSS</a></li>
+                    <li><a href="">Project 3: (Empty)</a></li>
+                    <li><a href="">Project 4: (Empty)</a></li>
+                    <li class="sub"><a href="">Future Projects...</a>
+                        <ul>
+                            <li><a href="">(Empty)</a></li>
+                            <li><a href="">(Empty)</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="http://redmine.kussmaul.org/projects/csi210-2015-fall/issues">Issues</a></li>
+            <li><a href="http://redmine.kussmaul.org/projects/csi210-2015-fall/wiki">Wiki</a></li>
+        </ul>
+    </nav>
+
+    <!-- Profile Picture -->
+    <div id="prof_pic">
+        <a href=""><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAMqAAAAJDlhMmU4MWY0LTgxMjYtNGY2Zi1iNzA3LTU0NTZjYTljMDU4OA.jpg" alt="My Photo" width="200" height="200"></a>
+    </div>
+
+
+    <!-- Information -->
+    <ul>
+        <li>About Me</li>
+        <li>
+            <ul>
+                <li> Welcome to my page! I am a junior at Muhlenberg College, currently studying Computer Science. <br>I've created this simple webpage for my Software Engineering course. </li>
+            </ul>
+        </li>
+        <li>Age: 20</li>
+        <li>Hometown: Ridgefield Park, NJ</li>
+        <li>Contact Info:</li>
+        <li>
+            <ul>
+                <li>Email: 
+                    <a href="mailto:vl248684@muhlenberg.edu">vl248684@muhlenberg.edu</a>
+                </li>
+                <li>Phone: (201) 289-1355
+            </ul>
+        </li>
+
+        <!--Websites-->
+        <li>Websites:</li>
+        <li>  
+            <ul>
+                <li><a href="https://www.linkedin.com/in/vlora95" target="_blank">LinkedIn</a>
+                <li><a href="https://www.facebook.com/vlora95" target="_blank">Facebook</a></li>
+                <li><a href="http://github.com/vlora95" target="_blank">Github</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <!-- footer -->
+    <footer>
+        <table>
+                <tr>
+                    <td>
+                        <a href="https://www.linkedin.com/pub/victor-lora/8b/3ab/92b" style="text-decoration:none;"><img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_in_20x15.png" width="20" height="15" alt="View Victor Lora's LinkedIn profile" style="vertical-align:middle;"></a>
+                    </td>
+                    <td>
+                        <a href="https://www.facebook.com/vlora95"><img src="http://static1.squarespace.com/static/52292bc7e4b05c2be03c02fe/54e108aae4b066ba0302d34b/54e108b0e4b066ba0302d370/1424040822902/facebook+logo+png+transparent+background.png" width="20" height="15" alt="Facebook Page" style="vertical-align:middle"></a>
+                    </td>
+                    <td>
+                        <a href="https://github.com/vlora95"><img src="http://www.acsu.buffalo.edu/~lzhang34/Images/gh.png" width="20" height="15" alt="My Github Page" style="vertical-align:middle"></a>
+                    </td>
+                </tr>
+        </table>
+        &copy; by Victor Lora
+    </footer>
+</body>
+</html>

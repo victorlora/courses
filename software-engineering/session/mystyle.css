@@ -1,0 +1,87 @@
+/* Formatting for the body. Set the background color, the font color, and the font type.*/
+body {
+  margin: 0;
+  padding: 0;
+  background-color:#e31835; 
+  color:#ffd950; 
+  font-family: 'Helvetica', sans-serif;
+}
+/* Formatting for the footer.*/
+footer {
+	text-align: center;
+}
+
+/* Changes the color for links.*/
+a {
+	color: #FFF;
+}
+
+/* Formats all of the paragraphs used. Sets the phone size and centers it vertically.*/
+p {
+	padding: 10px;
+	vertical-align: middle;
+	font-size: 150%;
+}
+ 
+/* Formatting for the navigation bar.*/ 
+
+/* This one specifically is the list. It set the color of the navigation bar.*/
+.nav ul {
+  background-color: #053f6d;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+/* This set the list color and size.*/
+.nav li {
+  font-size: 1.2px;
+  line-height: 40px;
+  height: 40px;
+  
+  width: 120px;
+  border-bottom: none;
+  height: 50px;
+  line-height: 50px;
+  font-size: 1.4em;
+  
+  display: inline-block;
+  margin-right: -4px;
+}
+ 
+/* This set the color and havior of the links on the navigation bar.*/
+.nav a {
+  text-decoration: none;
+  color: #ffd950;
+  display: block;
+  transition: .4s background-color;
+}
+
+/* Changes the color of the link when it is hovered over.*/
+.nav a:hover {
+  background-color: #ab8c6f;
+}
+  
+/* This formats all of the objects that need to be centered in the page.*/
+.container {
+  	  padding: 10px;
+	  top:50%;
+	  text-align: center;
+  }
+ 
+/* This formats all of the objects that need to have some padding, but not be centered.*/
+.wrapper {
+  	  padding: 10px;
+	  top:50%;
+  }
+  
+/* This formats the buttons that are used to submit the forms. It changes the color of the text and the background color of the button.*/
+input[type=submit] {
+	  padding:5px 15px; 
+	  background:#053f6d; 
+	  color:#ffd950;
+	  border:0 none;
+	  cursor:pointer;
+	  -webkit-border-radius: 5px;
+	  border-radius: 5px; 
+  }
+

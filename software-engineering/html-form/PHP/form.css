@@ -1,0 +1,105 @@
+/* 
+ * @fileName: form.css;
+ * @author: Victor Lora & Jon Goldberg;
+ * @description: css style-sheet for form page;
+ *
+ */
+
+/* start navbar styling */
+nav {
+    background-color: #550F15;
+    margin-top: 30px;
+    overflow: hidden;
+}
+nav ul{
+    border: 1px solid black;
+    margin: 0;
+    padding: 0;
+}
+nav ul li {
+    border-right: 1px solid black;
+    display: inline-block;
+    list-style-type: none;
+}
+nav > ul > li > a {
+    background-color:#550F15;
+    color: white;
+    display: block;
+    line-height: 2em;
+    padding: 0.5em 1.5em;
+    text-decoration: none;
+}
+nav li > ul {
+    display: none;
+}
+nav li > ul li {
+    background-color:#550F15;
+    border: 1px solid black;
+    display: block;
+}
+nav li > ul li a {
+    color: white;
+    display: block;
+    line-height: 2em;
+    padding: 0.5em 2em;
+    text-decoration: none;
+    width: 150px;
+}
+
+img {
+    float: right;
+    height: 75px;
+    margin-right: 20px;
+    margin-top: 20px;
+    width: 75px;
+
+}
+body {
+    background-color: #910D29;
+    color: white;
+    margin:0;
+}
+header {
+    color: white;
+    font-size: 3em;
+    margin-top: 15px;
+    overflow: hidden;
+    padding-left: 15px;
+}
+fieldset {
+	margin: 2em;
+}
+label {
+    display: inline-block;
+    float: left;
+    width: 125px;
+}
+div#col1 {
+    float:left;
+    margin-right: 150px;
+    width:300px;
+}
+div#col2 {
+    float:left;
+    margin-left: 150px;
+    width:300px;
+}
+div#education>label {
+	width: 200px;
+}
+div#recognitions>label {
+	width: 200px;
+}
+div#submit {
+    float: right;
+    clear: left;
+}
+#errors {
+    text-align: center;
+    width: 50%;
+    margin: 0 auto;
+}
+#errors > p {
+    border-style: solid;
+    padding: 5px;
+}
