@@ -1,0 +1,80 @@
+Project documentation
+<---- javadoc command: ---->
+/Applications/BlueJ.app/Contents/Frameworks/jdk.framework/Versions/A/Contents/Home/bin/javadoc
+-sourcepath
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B
+-source
+1.7
+-classpath
+/Applications/BlueJ.app/Contents/Resources/Java/bluejcore.jar:/Applications/BlueJ.app/Contents/Resources/Java/junit-4.8.2.jar:/Applications/BlueJ.app/Contents/Resources/Java/userlib/simplegraphics.jar:/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B
+-d
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc
+-encoding
+UTF-8
+-charset
+UTF-8
+-docletpath
+/Applications/BlueJ.app/Contents/Resources/Java/bjdoclet.jar
+-doclet
+bluej.doclet.doclets.formats.html.HtmlDoclet
+-doctitle
+HW03A-B
+-windowtitle
+HW03A-B
+-author
+-version
+-nodeprecated
+-package
+-link
+http://download.oracle.com/javase/6/docs/api/
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/DistanceMathTest.java
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/DistanceMath.java
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/StatsTest.java
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java
+<---- end of javadoc command ---->
+Loading source file /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/DistanceMathTest.java...
+Loading source file /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/DistanceMath.java...
+Loading source file /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/StatsTest.java...
+Loading source file /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java...
+Constructing Javadoc information...
+Standard Doclet version 1.7.0_45
+Building tree for all the packages and classes...
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/DistanceMath.html...
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/DistanceMath.java:144: warning - @params is an unknown tag.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/DistanceMath.java:329: warning - @params is an unknown tag.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/DistanceMath.java:329: warning - @return tag cannot be used in method with void return type.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/DistanceMath.java:35: warning - @params is an unknown tag.
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/DistanceMathTest.html...
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/DistanceMathTest.java:49: warning - @Test is an unknown tag.
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/Stats.html...
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:49: warning - @params is an unknown tag.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:49: warning - Tag @return cannot be used in constructor documentation.  It can only be used in the following types of documentation: method.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:62: warning - @params is an unknown tag.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:62: warning - Tag @return cannot be used in constructor documentation.  It can only be used in the following types of documentation: method.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:187: warning - @params is an unknown tag.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:228: warning - @params is an unknown tag.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:204: warning - @params is an unknown tag.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:131: warning - @params is an unknown tag.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:168: warning - @params is an unknown tag.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:252: warning - @param argument "int" is not a parameter name.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:112: warning - @params is an unknown tag.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:92: warning - @params is an unknown tag.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:92: warning - @return tag cannot be used in method with void return type.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:75: warning - @params is an unknown tag.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:75: warning - @return tag cannot be used in method with void return type.
+/Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/Stats.java:149: warning - @params is an unknown tag.
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/StatsTest.html...
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/package-frame.html...
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/package-summary.html...
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/package-tree.html...
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/constant-values.html...
+Building index for all the packages and classes...
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/overview-tree.html...
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/index-all.html...
+Building index for all classes...
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/allclasses-frame.html...
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/allclasses-noframe.html...
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/index.html...
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/help-doc.html...
+Generating /Users/vlora95/Google Drive/Muhlenberg Work/Fall Semester '14/Computer Science II/CSI111 HW/HW03A-B/doc/stylesheet.css...
+21 warnings
